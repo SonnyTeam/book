@@ -10,6 +10,9 @@ public class Application {
     public static void main(String[] args) {
 
         Scanner scr = new Scanner(System.in);
+        Login login = new Login();
+        ManagerLogin managerLogin = new ManagerLogin();
+        SignUp signUp = new SignUp();
 
         while(true){
             System.out.println("=== 도서관리 시스템 ===");
@@ -17,18 +20,16 @@ public class Application {
             System.out.println("2.관리자 로그인");
             System.out.println("3.회원가입");
             int choice = scr.nextInt();
+            scr.nextLine();
 
             switch (choice) {
                 case 1:
-                    Login login = new Login();
                     login.login();
                     break;
                 case 2:
-                    ManagerLogin managerLogin = new ManagerLogin();
-                    managerLogin.mangerLogin();
+                    managerLogin.managerLogin();
                     break;
                 case 3:
-                    SignUp signUp = new SignUp();
                     signUp.signUp();
                     break;
                 default:
