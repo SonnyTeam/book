@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
+<<<<<<< HEAD
     <entry key="rentalalbe">
         UPDATE TBL_STATUS
         SET STATUS_RENT = ?, STATUS_RESERVE = ? , DATE = ?
@@ -33,5 +34,30 @@
     </entry>
     <entry key="author">
 
+=======
+    <entry key="loginCheck">
+        SELECT  user_code
+        FROM    tbl_user
+        WHERE   user_id = ? AND
+                user_pwd = ?
+>>>>>>> a1c45efff836036d2c81d0841edb40b707dd5061
     </entry>
+
+    <entry key="signUp">
+        INSERT into tbl_user(
+            user_code,
+            name,
+            phone,
+            user_id,
+            user_pwd
+        )VALUES (
+            NULL,
+            ?,
+            ?,
+            ?,
+            ?
+        )
+    </entry>
+
+
 </properties>
