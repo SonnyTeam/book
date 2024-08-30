@@ -1,27 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="GradleSettings">
-    <option name="linkedExternalProjectsSettings">
-      <GradleProjectSettings>
-<<<<<<< HEAD
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="#JAVA_HOME" />
-=======
-<<<<<<< HEAD
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="#JAVA_HOME" />
-=======
-        <option name="delegatedBuild" value="false" />
-        <option name="testRunner" value="PLATFORM" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
->>>>>>> a1c45efff836036d2c81d0841edb40b707dd5061
->>>>>>> 4f8314e4898f876751c14e80db7c86082999eeec
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-    </option>
-  </component>
+  <component name="GradleMigrationSettings" migrationVersion="1" />
 </project>

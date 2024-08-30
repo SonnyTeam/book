@@ -16,7 +16,8 @@ public class BookController {
     - 도서 상태 변경 이력을 기록하고 조회할 수 있는 기능을 추가한다.
     * */
 
-    private BookDAO menuDAO = new BookDAO("src/main/resources/mapper/manager-query.xml");
+    private BookDAO bookDAO = new BookDAO("src/main/resources/mapper/manager-query.xml");
+
 
     // 도서 상태 관리
     public void updateStatus(){
@@ -27,7 +28,7 @@ public class BookController {
         System.out.println("도서의 제목을 입력해주세요.");
         String subject = scr.nextLine();
 
-        int result = menuDAO.updateStatus(getConnection(), subject);
+        int result = bookDAO.updateStatus(getConnection(), subject);
 
         if(result == 1){
             System.out.println("도서 상태를 변경했습니다.");
@@ -39,7 +40,7 @@ public class BookController {
     // 도서 상태 변경 기록 조회
     public void selectStatus(){
 
-        List<StatusDTO> list = menuDAO.selectStatus(getConnection());
+        List<StatusDTO> list = bookDAO.selectStatus(getConnection());
         for(StatusDTO statusDTO : list){
             System.out.println(statusDTO);
         }

@@ -21,13 +21,17 @@
 
     <entry key="selectJoinStatus">
         SELECT
-            b.subject,
-            s.status_rent,
-            s.status_reserve,
-            s.date_rent,
-            s.date_return
-        FROM tbl_book b
-        JOIN tbl_status s ON b.ISBN = s.ISBN
-        WHERE subject = ?;
+            A.subject ,
+            B.STATUS_RENT,
+            B.STATUS_RESERVE,
+            B.DATE_RENT,
+            B.DATE_RETURN
+        FROM
+            TBL_BOOK A
+        JOIN TBL_STATUS B
+        ON
+            A.ISBN = B.ISBN
+        WHERE
+            A.SUBJECT = ?
     </entry>
 </properties>

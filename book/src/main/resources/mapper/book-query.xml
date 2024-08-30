@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-<<<<<<< HEAD
-    <entry key="rentalalbe">
+
+    <entry key="rentalable">
         UPDATE TBL_STATUS
-        SET STATUS_RENT = ?, STATUS_RESERVE = ? , DATE = ?
+        SET STATUS_RENT = ?, STATUS_RESERVE = ? , DATE_RENT = ?
         WHERE ISBN = ?
     </entry>
     <entry key="returnBook">
         UPDATE TBL_STATUS
-        SET STATUS_RENT = ?, STATUS_RESERVE = DEFAULT, DATE = NULL
+        SET STATUS_RENT = ?, STATUS_RESERVE = DEFAULT, DATE_RENT = NULL
         WHERE ISBN = ?
 
     </entry>
@@ -24,7 +24,7 @@
         WHERE
         A.SUBJECT = ?
     </entry>
-    <entry key="allSeach">
+    <entry key="allSearch">
         SELECT
         A.* , B.STATUS_RENT, B.STATUS_RESERVE
         FROM
@@ -32,15 +32,12 @@
         ON
         A.ISBN = B.ISBN
     </entry>
-    <entry key="author">
 
-=======
     <entry key="loginCheck">
         SELECT  user_code
         FROM    tbl_user
         WHERE   user_id = ? AND
                 user_pwd = ?
->>>>>>> a1c45efff836036d2c81d0841edb40b707dd5061
     </entry>
 
     <entry key="signUp">

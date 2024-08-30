@@ -1,6 +1,7 @@
 package com.ohgiraffers.login;
 
 import com.ohgiraffers.login.dao.LoginDAO;
+import com.ohgiraffers.manager.controller.Manager;
 import com.ohgiraffers.user.dto.UserDTO;
 
 import java.util.Scanner;
@@ -24,6 +25,8 @@ public class ManagerLogin {
 
         if (result == 1) {
             System.out.println("관리자 로그인 성공");
+            Manager manager = new Manager();
+            manager.manager();
         } else {
             System.out.println("관리자 로그인 실패!!\nID 또는 Password가 맞지 않습니다.");
         }

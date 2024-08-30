@@ -12,8 +12,9 @@ import static com.ohgiraffers.JDBCTemplate.JDBCTemplate.getConnection;
 public class Login {
 
     private LoginDAO loginDAO = new LoginDAO("src/main/resources/mapper/book-query.xml");
+    CommonMemberUI commonMemberUI = new CommonMemberUI();
 
-    public boolean login(){
+    public void login(){
         Scanner scr = new Scanner(System.in);
         UserDTO userDTO = new UserDTO();
 
@@ -26,13 +27,13 @@ public class Login {
 
         if(result == 0){
             System.out.println("로그인 실패! ID 또는 Password 가 맞지 않습니다.");
-            return false;
+
         } else if(result == 1) {
             System.out.println("관리자라면 관리자 로그인 메뉴로 가세요~~");
-            return false;
+
         } else {
             System.out.println("로그인 성공!!");
-            return true;
+            commonMemberUI.userUI();
         }
 
     }
