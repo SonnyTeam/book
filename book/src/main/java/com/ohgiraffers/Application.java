@@ -1,6 +1,8 @@
 package com.ohgiraffers;
 
 import com.ohgiraffers.login.Login;
+import com.ohgiraffers.login.ManagerLogin;
+import com.ohgiraffers.login.SignUp;
 
 import java.util.Scanner;
 
@@ -18,13 +20,16 @@ public class Application {
 
             switch (choice) {
                 case 1:
-                    Login.login();
+                    Login login = new Login();
+                    login.login();
                     break;
                 case 2:
-                    Login.mangerLogin();
+                    ManagerLogin managerLogin = new ManagerLogin();
+                    managerLogin.mangerLogin();
                     break;
                 case 3:
-                    Login.signUp();
+                    SignUp signUp = new SignUp();
+                    signUp.signUp();
                     break;
                 default:
                     System.out.println("잘못된 번호를 입력하셨습니다.");
