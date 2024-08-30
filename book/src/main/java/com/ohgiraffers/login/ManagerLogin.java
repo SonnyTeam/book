@@ -11,7 +11,7 @@ public class ManagerLogin {
 
     private LoginDAO loginDAO = new LoginDAO("src/main/resources/mapper/book-query.xml");
 
-    public void managerLogin(){
+    public void managerLogin() {
         Scanner scr = new Scanner(System.in);
         UserDTO userDTO = new UserDTO();
 
@@ -20,13 +20,12 @@ public class ManagerLogin {
         userDTO.setUser_id(scr.nextLine());
         System.out.println("관리자 Password 입력 : ");
         userDTO.setUser_pwd(scr.nextLine());
-        int result = loginDAO.login(getConnection(),userDTO);
+        int result = loginDAO.login(getConnection(), userDTO);
 
-        if(result == 1){
+        if (result == 1) {
             System.out.println("관리자 로그인 성공");
         } else {
             System.out.println("관리자 로그인 실패!!\nID 또는 Password가 맞지 않습니다.");
         }
-
     }
 }

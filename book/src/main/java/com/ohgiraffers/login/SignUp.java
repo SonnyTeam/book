@@ -11,7 +11,7 @@ public class SignUp {
 
     private SignUpDAO signUpDAO = new SignUpDAO("src/main/resources/mapper/book-query.xml");
 
-    public void signUp(){
+    public void signUp() {
 
         Scanner scr = new Scanner(System.in);
         UserDTO userDTO = new UserDTO();
@@ -26,7 +26,7 @@ public class SignUp {
         System.out.println("Password 입력 : ");
         userDTO.setUser_pwd(scr.nextLine());
         int result = signUpDAO.signUp(getConnection(), userDTO);
-        if(result == 1){
+        if (result == 1) {
             System.out.println("회원가입 성공");
         } else {
             System.out.println("회원가입 실패???????");
