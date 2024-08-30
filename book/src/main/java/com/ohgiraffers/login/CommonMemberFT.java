@@ -4,7 +4,8 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -19,19 +20,19 @@ public class CommonMemberFT {
     static Properties prop = new Properties();
     public void rental(){ //책 대여
 
-        LocalDateTime startTime;
+        LocalDate startTime;
         int result =0;
         System.out.println("대여하실 책 번호 : ");
         int num = sc.nextInt();
         sc.nextLine();
 
         try {
-            startTime = LocalDateTime.now();
-            prop.loadFromXML(new FileInputStream("src/main/resources/mapper.book-query.xml"));
+            startTime = LocalDate.now();
+            prop.loadFromXML(new FileInputStream("src/main/resources/mapper/book-query.xml"));
             pstmt = con.prepareStatement(prop.getProperty("rentalable"));
             pstmt.setInt(4,num);
             pstmt.setString(1,"대여 중");
-            pstmt.setString(2,"예약 가능");
+            pstmt.setString(2,"예약가능");
             pstmt.setString(3,startTime.toString());
 
             result = pstmt.executeUpdate();
@@ -57,7 +58,7 @@ public class CommonMemberFT {
         sc.nextLine();
 
         try {
-            prop.loadFromXML(new FileInputStream("src/main/resources/mapper.book-query.xml"));
+            prop.loadFromXML(new FileInputStream("src/main/resources/mapper/book-query.xml"));
             pstmt = con.prepareStatement(prop.getProperty("returnBook"));
             pstmt.setInt(2,num);
             pstmt.setString(1,"대여가능");
@@ -83,14 +84,14 @@ public class CommonMemberFT {
         System.out.println("책 제목 : ");
         String title = sc.nextLine();
         try {
-            prop.loadFromXML(new FileInputStream("src/main/resources/mapper.book-query.xml"));
+            prop.loadFromXML(new FileInputStream("src/main/resources/mapper/book-query.xml"));
             pstmt = con.prepareStatement(prop.getProperty("titleSearch"));
             pstmt.setString(1,title);
             rset = pstmt.executeQuery();
             while(rset.next()){
                 System.out.println(rset.getString("SUBJECT")+
                         rset.getString("AUTHOR")+
-                        rset.getString("PUBLICHER")+
+                        rset.getString("PUBLISHER")+
                         rset.getInt("PUBLIC_YEAR")+
                         rset.getString("GENRE")+
                         rset.getInt("ISBN")+
@@ -103,6 +104,10 @@ public class CommonMemberFT {
             throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }finally {
+            close(con);
+            close(pstmt);
+            close(rset);
         }
     }
     public void allsearch(){
@@ -110,13 +115,14 @@ public class CommonMemberFT {
 
         System.out.println("책 전체 리스트");
         try {
-            prop.load(new FileReader("src/main/resources/mapper.book-query.xml"));
+            prop.loadFromXML(new FileInputStream("src/main/resources/mapper/book-query.xml"));
             pstmt = con.prepareStatement(prop.getProperty("allSearch"));
+
             rset = pstmt.executeQuery();
             while(rset.next()){
                 System.out.println(rset.getString("SUBJECT")+
                         rset.getString("AUTHOR")+
-                        rset.getString("PUBLICHER")+
+                        rset.getString("PUBLISHER")+
                         rset.getInt("PUBLIC_YEAR")+
                         rset.getString("GENRE")+
                         rset.getInt("ISBN")+
@@ -127,6 +133,10 @@ public class CommonMemberFT {
             throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            close(con);
+            close(pstmt);
+            close(rset);
         }
     }
 
