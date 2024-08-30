@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="updateStatus">
+        Update tbl_status
+           SET
+                status_rent = ?,
+                status_reserve = ?
+         WHERE status_rent = ?
+    </entry>
+
+    <entry key="selectStatus">
+        SELECT
+            b.subject,
+            s.status_rent,
+            s.date_rent,
+            s.date_return
+        FROM tbl_book b
+        JOIN tbl_status s ON b.ISBN = s.ISBN;
+    </entry>
+
+    <entry key="selectJoinStatus">
+        SELECT
+            b.subject,
+            s.status_rent,
+            s.status_reserve,
+            s.date_rent,
+            s.date_return
+        FROM tbl_book b
+        JOIN tbl_status s ON b.ISBN = s.ISBN
+        WHERE subject = ?;
+    </entry>
+</properties>
