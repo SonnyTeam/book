@@ -7,12 +7,13 @@ import java.util.Properties;
 
 public class JDBCTemplate {
 
+    private static Connection con;
+
     public static Connection getConnection() {
-        Connection con = null;
         Properties prop = new Properties();
 
         try {
-            prop.load(new FileReader("src/main/resources/connection-info.properties"));
+            prop.load(new FileReader("src/main/resources/config/connection-info.properties"));
             String url = prop.getProperty("url");
             String user = prop.getProperty("user");
             String password = prop.getProperty("password");
