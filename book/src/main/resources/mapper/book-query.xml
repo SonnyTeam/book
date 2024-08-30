@@ -1,7 +1,63 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-    <entry key="">
+<<<<<<< HEAD
+    <entry key="rentalalbe">
+        UPDATE TBL_STATUS
+        SET STATUS_RENT = ?, STATUS_RESERVE = ? , DATE = ?
+        WHERE ISBN = ?
+    </entry>
+    <entry key="returnBook">
+        UPDATE TBL_STATUS
+        SET STATUS_RENT = ?, STATUS_RESERVE = DEFAULT, DATE = NULL
+        WHERE ISBN = ?
 
     </entry>
+    <entry key="titleSearch">
+
+        SELECT
+        A.* , B.STATUS_RENT, B.STATUS_RESERVE
+        FROM
+        TBL_BOOK A JOIN TBL_STATUS B
+        ON
+        A.ISBN = B.ISBN
+        WHERE
+        A.SUBJECT = ?
+    </entry>
+    <entry key="allSeach">
+        SELECT
+        A.* , B.STATUS_RENT, B.STATUS_RESERVE
+        FROM
+        TBL_BOOK A JOIN TBL_STATUS B
+        ON
+        A.ISBN = B.ISBN
+    </entry>
+    <entry key="author">
+
+=======
+    <entry key="loginCheck">
+        SELECT  user_code
+        FROM    tbl_user
+        WHERE   user_id = ? AND
+                user_pwd = ?
+>>>>>>> a1c45efff836036d2c81d0841edb40b707dd5061
+    </entry>
+
+    <entry key="signUp">
+        INSERT into tbl_user(
+            user_code,
+            name,
+            phone,
+            user_id,
+            user_pwd
+        )VALUES (
+            NULL,
+            ?,
+            ?,
+            ?,
+            ?
+        )
+    </entry>
+
+
 </properties>
