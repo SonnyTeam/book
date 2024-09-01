@@ -4,10 +4,18 @@ public class StatusDTO {
 
     private String subject;
     private String status_rent;
+    private String status_reserve;
     private String date_rent;
     private String date_return;
+    private int isbn;
 
     public StatusDTO() {
+    }
+
+    public StatusDTO(String status_rent, String status_reserve, int isbn) {
+        this.status_rent = status_rent;
+        this.status_reserve = status_reserve;
+        this.isbn = isbn;
     }
 
     public StatusDTO(String subject, String status_rent, String date_rent, String date_return) {
@@ -15,6 +23,15 @@ public class StatusDTO {
         this.status_rent = status_rent;
         this.date_rent = date_rent;
         this.date_return = date_return;
+    }
+
+    public StatusDTO(String subject, String status_rent, String status_reserve, String date_rent, String date_return, int isbn) {
+        this.subject = subject;
+        this.status_rent = status_rent;
+        this.status_reserve = status_reserve;
+        this.date_rent = date_rent;
+        this.date_return = date_return;
+        this.isbn = isbn;
     }
 
     public String getSubject() {
@@ -49,13 +66,31 @@ public class StatusDTO {
         this.date_return = date_return;
     }
 
+    public int getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(int isbn) {
+        this.isbn = isbn;
+    }
+
+    public String getStatus_reserve() {
+        return status_reserve;
+    }
+
+    public void setStatus_reserve(String status_reserve) {
+        this.status_reserve = status_reserve;
+    }
+
     @Override
     public String toString() {
         return "StatusDTO{" +
                 "subject='" + subject + '\'' +
                 ", status_rent='" + status_rent + '\'' +
+                ", status_reserve='" + status_reserve + '\'' +
                 ", date_rent='" + date_rent + '\'' +
                 ", date_return='" + date_return + '\'' +
+                ", isbn=" + isbn +
                 '}';
     }
 }
