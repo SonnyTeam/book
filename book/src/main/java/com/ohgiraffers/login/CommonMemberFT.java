@@ -18,9 +18,10 @@ public class CommonMemberFT {
     static ResultSet rset = null;
     static Properties prop = new Properties();
     static CommonMemberUI ui = new CommonMemberUI();
+    static LocalDate startTime;
+
     public String rental(){ //책 대여
 
-        LocalDate startTime;
         int result =0;
         System.out.println("대여하실 책 번호 : ");
         int num = sc.nextInt();
@@ -43,16 +44,16 @@ public class CommonMemberFT {
            }else {
 
                pstmt = con.prepareStatement(prop.getProperty("rentalable"));
-               pstmt.setInt(4, num);
+               pstmt.setInt(5, num);
                pstmt.setString(1, "대여 중");
                pstmt.setString(2, "예약가능");
                pstmt.setString(3, startTime.toString());
+               pstmt.setString(4, startTime.plusDays(30).toString());
 
                result = pstmt.executeUpdate();
                if (result == 1) {
                    System.out.println("대여 완료했습니다");
-                   startTime.plusDays(30);
-                   System.out.println("대여 기간은" + startTime + "~" + startTime.plusDays(30) + "입니다");
+                   System.out.println("대여 기간은 " + startTime + " ~ " + startTime.plusDays(30) + " 입니다");
                }
            }
         } catch (IOException e) {
@@ -80,10 +81,10 @@ public class CommonMemberFT {
             pstmt.setInt(1, num);
             rset = pstmt.executeQuery();
             if(rset.next()){
-                String currentStatus = rset.getString("status");
+                String currentStatus = rset.getString("STATUS_RENT");
                 if("대여가능".equals(currentStatus)){
                     System.out.println("대여중인 책이 아닙니다. 이전으로 돌아갑니다");
-                    return ui.userUI();
+                    return ui.userUI();0
                 }
             }else {
 
@@ -232,12 +233,6 @@ public class CommonMemberFT {
         }
     }
 
-
-
-
-
-
-
     public void allsearch(){
 
 
@@ -268,10 +263,44 @@ public class CommonMemberFT {
         }
     }
 
+    public String reseves(){
+        //대여중만 예약하기
+        System.out.println("예약하실 책 번호 입력");
 
+        int reserveNum = sc.nextInt();
+        int result = 0;
+        try {
+            prop.loadFromXML(new FileInputStream("src/main/resources/mapper/book-query.xml"));
+            pstmt = con.prepareStatement(prop.getProperty("checkbookstatus"));
+            pstmt.setInt(1, reserveNum);
+            rset = pstmt.executeQuery();
 
+            if(rset.next()) {
+                String currentStatus = rset.getString("STATUS_RESERVE");
+                if ("예약 중".equals(currentStatus)) {
+                    System.out.println("예약 중인 책입니다. 이전으로 돌아갑니다");
+                    return ui.userUI();
+                }else{
+                    pstmt = con.prepareStatement(prop.getProperty("setreseve"));
+                    pstmt.setInt(2, reserveNum);
+                    pstmt.setString(1,"예약 중");
+                    result = pstmt.executeUpdate();
 
-
-
-
+                    if(result == 1) {
+                        pstmt = con.prepareStatement(prop.getProperty("checkbookstatus"));
+                        rset = pstmt.executeQuery();
+                        String endDay = rset.getString("DATE_RETURN");
+                        System.out.println("예약 완료했습니다 "+ endDay+" 이후로 수령 가능합니다.");
+                    }
+                }
+            }
+        } catch (IOException | SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            close(con);
+            close(pstmt);
+            close(rset);
+        }
+        return null;
+    }
 }

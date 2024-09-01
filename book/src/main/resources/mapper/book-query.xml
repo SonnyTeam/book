@@ -4,7 +4,7 @@
 
     <entry key="rentalable">
         UPDATE TBL_STATUS
-        SET STATUS_RENT = ?, STATUS_RESERVE = ? , DATE_RENT = ?
+        SET STATUS_RENT = ?, STATUS_RESERVE = ? , DATE_RENT = ? ,DATE_RETURN = ?
         WHERE ISBN = ?
     </entry>
     <entry key="returnBook">
@@ -61,15 +61,30 @@
         A.PUBLIC_YEAR = ?
 
     </entry>
-    <entry key="checkbookstatus">
+    <entry key="checkbookstatus"> <!--책 대여 여부 확인하는 xml -->
         SELECT
         STATUS_RENT
         FROM
         TBL_STATUS
         WHERE
         ISBN = ?
+    </entry>
+
+    <entry key="checkbookreseve"> <!--책 예약 여부 확인하는 xml -->
+        SELECT
+        STATUS_RESERVE
+        FROM
+        TBL_STATUS
+        WHERE
+        ISBN = ?
+    </entry>
+    <entry key="setreseve">
+        UPDATE TBL_STATUS
+        SET STATUS_RESERVE = ?
+        WHERE ISBN = ?
 
     </entry>
+
 
     <entry key="genresearch">
         SELECT

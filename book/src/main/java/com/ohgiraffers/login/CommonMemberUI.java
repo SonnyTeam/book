@@ -25,10 +25,12 @@ public class CommonMemberUI {
             case 3:
                 ft.returnBook();
                 break;
+            case 4:
+                ft.reseves();
             default:
                 System.out.println("잘못입력");
                 break;
-        }
+            }
         }
     }
     public void searchBook(){
