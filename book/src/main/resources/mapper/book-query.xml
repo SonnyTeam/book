@@ -4,7 +4,7 @@
 
     <entry key="rentalable">
         UPDATE TBL_STATUS
-        SET STATUS_RENT = ?, STATUS_RESERVE = ? , DATE_RENT = ?
+        SET STATUS_RENT = ?, STATUS_RESERVE = ? , DATE_RENT = ? ,DATE_RETURN = ?
         WHERE ISBN = ?
     </entry>
     <entry key="returnBook">
@@ -38,6 +38,63 @@
         FROM    tbl_user
         WHERE   user_id = ? AND
                 user_pwd = ?
+    </entry>
+    <entry key="authorsearch">
+        SELECT
+        A.* , B.STATUS_RENT, B.STATUS_RESERVE
+        FROM
+        TBL_BOOK A JOIN TBL_STATUS B
+        ON
+        A.ISBN = B.ISBN
+        WHERE
+        A.AUTHOR = ?
+
+    </entry>
+    <entry key="yearsearch">
+        SELECT
+        A.* , B.STATUS_RENT, B.STATUS_RESERVE
+        FROM
+        TBL_BOOK A JOIN TBL_STATUS B
+        ON
+        A.ISBN = B.ISBN
+        WHERE
+        A.PUBLIC_YEAR = ?
+
+    </entry>
+    <entry key="checkbookstatus"> <!--책 대여 여부 확인하는 xml -->
+        SELECT
+        STATUS_RENT
+        FROM
+        TBL_STATUS
+        WHERE
+        ISBN = ?
+    </entry>
+
+    <entry key="checkbookreseve"> <!--책 예약 여부 확인하는 xml -->
+        SELECT
+        STATUS_RESERVE
+        FROM
+        TBL_STATUS
+        WHERE
+        ISBN = ?
+    </entry>
+    <entry key="setreseve">
+        UPDATE TBL_STATUS
+        SET STATUS_RESERVE = ?
+        WHERE ISBN = ?
+
+    </entry>
+
+
+    <entry key="genresearch">
+        SELECT
+        A.* , B.STATUS_RENT, B.STATUS_RESERVE
+        FROM
+        TBL_BOOK A JOIN TBL_STATUS B
+        ON
+        A.ISBN = B.ISBN
+        WHERE
+        A.GENRE = ?
     </entry>
 
     <entry key="signUp">
