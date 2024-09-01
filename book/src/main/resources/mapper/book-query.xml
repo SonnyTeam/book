@@ -39,6 +39,48 @@
         WHERE   user_id = ? AND
                 user_pwd = ?
     </entry>
+    <entry key="authorsearch">
+        SELECT
+        A.* , B.STATUS_RENT, B.STATUS_RESERVE
+        FROM
+        TBL_BOOK A JOIN TBL_STATUS B
+        ON
+        A.ISBN = B.ISBN
+        WHERE
+        A.AUTHOR = ?
+
+    </entry>
+    <entry key="yearsearch">
+        SELECT
+        A.* , B.STATUS_RENT, B.STATUS_RESERVE
+        FROM
+        TBL_BOOK A JOIN TBL_STATUS B
+        ON
+        A.ISBN = B.ISBN
+        WHERE
+        A.PUBLIC_YEAR = ?
+
+    </entry>
+    <entry key="checkbookstatus">
+        SELECT
+        STATUS_RENT
+        FROM
+        TBL_STATUS
+        WHERE
+        ISBN = ?
+
+    </entry>
+
+    <entry key="genresearch">
+        SELECT
+        A.* , B.STATUS_RENT, B.STATUS_RESERVE
+        FROM
+        TBL_BOOK A JOIN TBL_STATUS B
+        ON
+        A.ISBN = B.ISBN
+        WHERE
+        A.GENRE = ?
+    </entry>
 
     <entry key="signUp">
         INSERT into tbl_user(

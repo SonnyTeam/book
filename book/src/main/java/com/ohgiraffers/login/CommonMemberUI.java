@@ -5,24 +5,25 @@ import java.util.Scanner;
 public class CommonMemberUI {
     Scanner sc = new Scanner(System.in);
     CommonMemberFT ft = new CommonMemberFT();
-    public void userUI(){
+    public String userUI(){
 
         while(true){
-        System.out.println("메뉴");
-        System.out.println("1. 대여");
-        System.out.println("2. 반납");
-        System.out.println("3. 도서 검색");
+        System.out.println("일반 회원 메뉴");
+        System.out.println("1. 도서 검색");
+        System.out.println("2. 대여");
+        System.out.println("3. 반납");
+        System.out.println("4. 예약하기");
         int num = sc.nextInt();
         sc.nextLine();
         switch (num) {
             case 1:
-                ft.rental();
+                searchBook();
                 break;
             case 2:
-                ft.returnBook();
+                ft.rental();
                 break;
             case 3:
-                searchBook();
+                ft.returnBook();
                 break;
             default:
                 System.out.println("잘못입력");
@@ -43,9 +44,9 @@ public class CommonMemberUI {
         sc.nextLine();
         switch (num){
             case 1: ft.titleSearch(); break;
-            case 2: break;
-            case 3: break;
-            case 4: break;
+            case 2: ft.authorSearch(); break;
+            case 3: ft.yearSearch(); break;
+            case 4: ft.genreSearch(); break;
             case 5: ft.allsearch(); break;
             case 6:  userUI(); break;
             default:
