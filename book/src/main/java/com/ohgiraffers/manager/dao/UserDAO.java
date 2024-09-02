@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import static com.ohgiraffers.JDBCTemplate.JDBCTemplate.close;
+
 public class UserDAO {
 
     private Properties prop = new Properties();
@@ -65,9 +67,11 @@ public class UserDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            close(con);
+            close(pstmt);
+            close(rset);
         }
-
-
 
 
         return user;
@@ -80,17 +84,20 @@ public class UserDAO {
 
         // 연락처 바꾸기
         try {
-            // 진짜 삭제 시 주석처리
-            con.setAutoCommit(false);
+            // 진짜 수정 시 주석처리
+            // con.setAutoCommit(false);
             pstmt = con.prepareStatement(prop.getProperty("updatePhone"));
             pstmt.setString(1, phone);
             pstmt.setString(2, name);
             result = pstmt.executeUpdate();
 
-            // 진짜 삭제 시 주석처리
-            con.rollback();
+            // 진짜 수정 시 주석처리
+            // con.rollback();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            close(con);
+            close(pstmt);
         }
 
 
@@ -111,10 +118,15 @@ public class UserDAO {
             result = pstmt.executeUpdate();
 
             // 진짜 삭제 시 주석처리
-            con.rollback();
+            //con.rollback();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println("도서를 대여/예약 중인 회원입니다.");
+            // throw new RuntimeException(e);
+
+        } finally {
+            close(con);
+            close(pstmt);
         }
 
 
@@ -164,6 +176,10 @@ public class UserDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            close(con);
+            close(pstmt);
+            close(rset);
         }
 
         return userList;

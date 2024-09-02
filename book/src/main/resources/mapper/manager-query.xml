@@ -8,7 +8,8 @@
                 status_reserve = ?,
                 user_code = ?,
                 date_rent = ?,
-                date_return = ?
+                date_return = ?,
+                date_end = ?
          WHERE status_rent = ? AND isbn=?
     </entry>
 
@@ -36,7 +37,9 @@
             B.STATUS_RESERVE,
             B.DATE_RENT,
             B.DATE_RETURN,
-            B.ISBN
+            B.ISBN,
+            B.USER_CODE,
+            B.DATE_END
         FROM
             TBL_BOOK A
         JOIN TBL_STATUS B
@@ -84,5 +87,18 @@
          WHERE name = ?
     </entry>
 
+    <entry key="insertHistory">
+        INSERT INTO TBL_HISTORY
+            VALUES
+            (?, ?, ?, ?, ?, ?, ?)
+    </entry>
+
+    <entry key="selectHistory">
+        SELECT
+            H.*,
+            U.name
+          FROM tbl_history H
+          JOIN tbl_user U ON H.user_code = U.user_code;
+    </entry>
 
 </properties>
