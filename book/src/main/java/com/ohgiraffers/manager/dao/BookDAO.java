@@ -15,7 +15,7 @@ import java.util.Properties;
 
 public class BookDAO {
     private Properties prop = new Properties();
-    private List<StatusDTO> statusList = new ArrayList<>();
+    private static List<StatusDTO> statusList = new ArrayList<>();
 
 
     public BookDAO(String url) {
