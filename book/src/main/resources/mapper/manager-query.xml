@@ -5,8 +5,18 @@
         Update tbl_status
            SET
                 status_rent = ?,
-                status_reserve = ?
-         WHERE status_rent = ?
+                status_reserve = ?,
+                user_code = ?,
+                date_rent = ?,
+                date_return = ?
+         WHERE status_rent = ? AND isbn=?
+    </entry>
+
+    <entry key="findUserCode">
+        SELECT
+            user_code
+          FROM tbl_user
+         WHERE name = ?
     </entry>
 
     <entry key="selectStatus">
@@ -21,11 +31,12 @@
 
     <entry key="selectJoinStatus">
         SELECT
-            A.subject ,
+            A.SUBJECT,
             B.STATUS_RENT,
             B.STATUS_RESERVE,
             B.DATE_RENT,
-            B.DATE_RETURN
+            B.DATE_RETURN,
+            B.ISBN
         FROM
             TBL_BOOK A
         JOIN TBL_STATUS B
@@ -34,4 +45,44 @@
         WHERE
             A.SUBJECT = ?
     </entry>
+
+    <entry key="selectUser">
+        SELECT
+            name,
+            phone,
+            user_code
+          FROM tbl_user
+         WHERE name = ?
+    </entry>
+
+    <entry key="selectBorrowedUser">
+        SELECT
+            B.subject
+          FROM tbl_book B
+          JOIN tbl_status S
+           ON S.ISBN = B.ISBN
+         WHERE S.user_code = ?
+            AND S.status_rent like '%중'
+    </entry>
+
+    <entry key="selectAllUser">
+        SELECT
+            name,
+            phone,
+            user_code
+        FROM tbl_user
+    </entry>
+
+    <entry key="deleteUser">
+        DELETE FROM tbl_user
+              WHERE name = ?
+    </entry>
+
+    <entry key="updatePhone">
+        UPDATE tbl_user
+           SET phone = ?
+         WHERE name = ?
+    </entry>
+
+
 </properties>
