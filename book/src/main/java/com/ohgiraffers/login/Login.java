@@ -12,12 +12,12 @@ import static com.ohgiraffers.JDBCTemplate.JDBCTemplate.getConnection;
 public class Login {
 
     private LoginDAO loginDAO = new LoginDAO("src/main/resources/mapper/book-query.xml");
-    CommonMemberUI commonMemberUI = new CommonMemberUI();
+
 
     public void login(){
         Scanner scr = new Scanner(System.in);
         UserDTO userDTO = new UserDTO();
-
+        CommonMemberUI commonMemberUI = new CommonMemberUI();
         System.out.println("--------------로그인-----------------");
         System.out.println("ID 입력 : ");
         userDTO.setUser_id(scr.nextLine());
@@ -33,7 +33,8 @@ public class Login {
 
         } else {
             System.out.println("로그인 성공!!");
-            commonMemberUI.userUI();
+            commonMemberUI.userUI(result);
+
         }
 
     }
