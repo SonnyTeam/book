@@ -4,12 +4,12 @@
 
     <entry key="rentalable">
         UPDATE TBL_STATUS
-        SET STATUS_RENT = ?, STATUS_RESERVE = ? , DATE_RENT = ? ,DATE_RETURN = ?
+        SET STATUS_RENT = ?, STATUS_RESERVE = ? , DATE_RENT = ? ,DATE_END = ?, USER_CODE = ?
         WHERE ISBN = ?
     </entry>
     <entry key="returnBook">
         UPDATE TBL_STATUS
-        SET STATUS_RENT = ?, STATUS_RESERVE = DEFAULT, DATE_RENT = NULL
+        SET STATUS_RENT = ?, STATUS_RESERVE = DEFAULT, DATE_RETURN = ?
         WHERE ISBN = ?
 
     </entry>
@@ -63,11 +63,14 @@
     </entry>
     <entry key="checkbookstatus"> <!--책 대여 여부 확인하는 xml -->
         SELECT
-        STATUS_RENT
+            STATUS_RENT,
+            STATUS_RESERVE,
+            DATE_END,
+            USER_CODE
         FROM
-        TBL_STATUS
+            TBL_STATUS
         WHERE
-        ISBN = ?
+            ISBN = ?
     </entry>
 
     <entry key="checkbookreseve"> <!--책 예약 여부 확인하는 xml -->
@@ -78,9 +81,9 @@
         WHERE
         ISBN = ?
     </entry>
-    <entry key="setreseve">
+    <entry key="setreserve">
         UPDATE TBL_STATUS
-        SET STATUS_RESERVE = ?
+        SET STATUS_RESERVE = ?, USER_CODE = ?
         WHERE ISBN = ?
 
     </entry>
@@ -113,5 +116,10 @@
         )
     </entry>
 
+    <entry key="findUsercode">
+        SELECT user_code
+          FROM tbl_user
+         WHERE user_id = ?
+    </entry>
 
 </properties>
