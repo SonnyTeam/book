@@ -19,6 +19,8 @@ public class Application {
             System.out.println("1.일반회원 로그인");
             System.out.println("2.관리자 로그인");
             System.out.println("3.회원가입");
+            System.out.println("9.프로그램 종료");
+
             int choice = scr.nextInt();
             scr.nextLine();
 
@@ -32,6 +34,8 @@ public class Application {
                 case 3:
                     signUp.signUp();
                     break;
+                case 4:
+                    return;
                 default:
                     System.out.println("잘못된 번호를 입력하셨습니다.");
             }
