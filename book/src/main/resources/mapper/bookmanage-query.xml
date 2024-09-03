@@ -12,16 +12,10 @@
         WHERE subject = ?
     </entry>
 
-    <entry key="updateBook">
-        UPDATE tbl_book
-        SET subject = ?,
-            author = ?,
-            publisher = ?,
-            public_year = ?,
-            genre = ?,
-            pages = ?
-        WHERE isbn = ?
-
+    <entry key="selectByISBN">
+        SELECT *
+        FROM tbl_book
+        WHERE ISBN = ?
     </entry>
 
 
