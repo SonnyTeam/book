@@ -177,14 +177,16 @@ public class Manager {
     }
     public void overDue(){
         OverdueController overdueController = new OverdueController();
-        overdueController.overdueAutoInsert();
-
-        System.out.println("연체중인 회원 리스트 조회");
-        overdueController.overduelist();
-
-
+        Scanner sc = new Scanner(System.in);
+        System.out.println("1. 연체중인 회원 리스트조회 2.연체회원 새로고침");
+        int num = sc.nextInt();
+        sc.nextLine();
+        switch (num){
+            case 1:
+                overdueController.overduelist(); break;
+            case 2:
+                overdueController.overdueAutoInsert(); break;
+        }
 
     }
-
-
 }

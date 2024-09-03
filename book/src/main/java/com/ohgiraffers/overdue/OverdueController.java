@@ -23,7 +23,6 @@ public class OverdueController {
 
     public void overduelist(){
         dao.overlist(getConnection());
-
     }
     public void overdueAutoInsert(){
         dao.mapinsert(getConnection());

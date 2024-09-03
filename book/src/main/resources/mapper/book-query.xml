@@ -132,20 +132,17 @@
         SELECT
         A.*,
         B.NAME
-
         FROM
         TBL_OVERDUE A
         JOIN
-        TBL_USER B ON A.USER_CODE = B.USER_CODE
-        JOIN
-        TBL_BOOK C ON A.ISBN = A.ISBN;
+        TBL_USER B ON A.USER_CODE = B.USER_CODE;
     </entry>
     <entry key="keyAndval">
         SELECT
         ISBN,
-        DATE_END
-        FROM TBL_STATUS
-        DATE_END &lt; CURDATE();
+        DATE_END,
+        STATUS_RENT
+        FROM TBL_STATUS;
 
     </entry>
     <entry key="autoinsert">
@@ -157,7 +154,7 @@
         SELECT
         user_code
         FROM
-        tbl_book
+        tbl_status
         WHERE
         ISBN = ?
     </entry>
