@@ -226,9 +226,7 @@ public class CommonMemberFTDAO {
             pstmt = con.prepareStatement(prop.getProperty("titleSearch"));
             pstmt.setString(1, title);
             rset = pstmt.executeQuery();
-            System.out.println("!!!");
             while (rset.next()) {
-                System.out.println("!!");
                 System.out.println(rset.getString("SUBJECT") +
                         rset.getString("AUTHOR") +
                         rset.getString("PUBLISHER") +
