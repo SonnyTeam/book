@@ -20,6 +20,7 @@ public class Manager {
             System.out.println("5. 연체 관리");
             System.out.println("9. 로그아웃");
             int choice = scr.nextInt();
+            scr.nextLine();
 
             switch(choice){
                 case 1:
@@ -31,13 +32,40 @@ public class Manager {
                 case 3:
                     book_status();
                     break;
-                case 4: break;
-                case 5:  overDue(); break;
+                case 4:
+                    book_stat();
+                    break;
+                case 5:
+                    overDue();
+                    break;
                 case 9:
                     System.out.println("로그아웃 성공 ! 👋");
                     return;
                 default:
                     System.out.println("다시 입력해주세요.");
+            }
+        }
+
+    }
+
+    private void book_stat() {
+        BookStatController bookStatController = new BookStatController();
+
+        sloop: while(true){
+            Scanner scr = new Scanner(System.in);
+            System.out.println("1. 도서 총 개수");
+            System.out.println("2. 장르별 도서 개수");
+            System.out.println("3. 대여 중인 도서 개수");
+            int choice = scr.nextInt();
+            scr.nextLine();
+
+            switch(choice){
+                case 1: bookStatController.countAllBook();
+                break sloop;
+                case 2: bookStatController.countByGenre();
+                break sloop;
+                case 3: bookStatController.countRented();
+                break sloop;
             }
         }
 

@@ -36,6 +36,7 @@ public class Application {
                     break;
                 case 4:
                     return;
+                case 9: return;
                 default:
                     System.out.println("잘못된 번호를 입력하셨습니다.");
             }

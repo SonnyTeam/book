@@ -55,54 +55,68 @@ public class BookDTO {
     public BookDTO setSubject(String subject) {
         if (subject.equals("")) {
             this.subject = null;
+        } else {
+            this.subject = subject;
         }
-        this.subject = subject;
         return this;
     }
 
     public BookDTO setAuthor(String author) {
         if(author.equals("")) {
             this.author = null;
+        } else {
+            this.author = author;
         }
-        this.author = author;
         return this;
     }
 
     public BookDTO setPublisher(String publisher) {
         if (publisher.equals("")) {
             this.publisher = null;
+        } else {
+            this.publisher = publisher;
         }
-        this.publisher = publisher;
         return this;
     }
 
-    public BookDTO setPublic_year(int public_year) throws Exception {
+    public BookDTO setPublic_year(int public_year, String... a) throws Exception {
         Calendar calendar = Calendar.getInstance();
 
         if(public_year < 0){
-            System.out.println("음수입니다.");
-            throw new Exception();
+            throw new Exception("음수입니다.");
         }else if(public_year > calendar.get(Calendar.YEAR)) {
-            System.out.println("미래의 책입니다.");
-            throw new Exception();
+            throw new Exception("미래의 책입니다.");
         }else if(public_year == 0){
-            throw new Exception();
+            if(a[0].equals("skip")){
+                this.public_year = public_year;
+            }
+            else {
+                throw new Exception("출판연도는 0 일 수 없습니다.");
+            }
         }
         else {
             this.public_year = public_year;
         }
-
         return this;
     }
 
     public BookDTO setGenre(String genre) {
-        this.genre = genre;
+        if(genre.equals("")) {
+            this.genre = null;
+        } else {
+            this.genre = genre;
+        }
         return this;
     }
 
-    public BookDTO setPages(int pages) {
+    public BookDTO setPages(int pages, String... a) throws Exception {
         if(pages <= 0){
-            System.out.println("페이지수는 양수여야 합니다~~~");
+            if(a[0].equals("skip")){
+                this.pages = pages;
+            }
+            else {
+                throw new Exception("페이지수는 양수여야 합니다~~~");
+            }
         } else {
             this.pages = pages;
         }
