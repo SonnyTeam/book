@@ -1,6 +1,7 @@
 package com.ohgiraffers.manager.controller;
 
 import com.ohgiraffers.login.CommonMemberFT;
+import com.ohgiraffers.overdue.OverdueController;
 
 import java.util.Scanner;
 
@@ -31,7 +32,7 @@ public class Manager {
                     book_status();
                     break;
                 case 4: break;
-                case 5: break;
+                case 5:  overDue(); break;
                 case 9:
                     System.out.println("로그아웃 성공 ! 👋");
                     return;
@@ -145,6 +146,16 @@ public class Manager {
                     System.out.println("다시 입력해주세요.");
             }
         }
+    }
+    public void overDue(){
+        OverdueController overdueController = new OverdueController();
+        overdueController.overdueAutoInsert();
+
+        System.out.println("연체중인 회원 리스트 조회");
+        overdueController.overduelist();
+
+
+
     }
 
 
