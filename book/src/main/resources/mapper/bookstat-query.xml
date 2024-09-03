@@ -19,4 +19,9 @@
         WHERE   status_rent = '대여 중'
     </entry>
 
+    <entry key="showAllGenre">
+        SELECT DISTINCT genre
+        FROM tbl_book
+    </entry>
+
 </properties>

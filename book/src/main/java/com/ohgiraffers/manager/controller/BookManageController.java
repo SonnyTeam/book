@@ -53,6 +53,15 @@ public class BookManageController {
         }else {
             System.out.println("도서 추가를 완료!!");
             System.out.println(bookDTO);
+
+            //tbl_status 추가 시작
+            //subject로 ISBN 찾아와서 insert
+            int num = bookManageDAO.insertOrDeleteBookStatus(getConnection(), bookDTO.getSubject(),1);
+            if(num == 0){
+                System.out.println("도서 상태 추가 실패");
+            }else {
+                System.out.println("도서 상태 추가 완료!");
+            }
         }
 
     }
@@ -63,12 +72,17 @@ public class BookManageController {
         System.out.println("도서 삭제를 시작");
         System.out.println("삭제할 도서의 제목을 입력 : ");
         String subject = scr.nextLine();
-        int result = bookManageDAO.deleteBook(getConnection(), subject);
-
-        if(result == 1){
-            System.out.println("도서 삭제를 성공하였습니다.");
+        int num = bookManageDAO.insertOrDeleteBookStatus(getConnection(), subject, 2);
+        if(num == 0){
+            System.out.println("도서 상태 삭제 실패");
         }else {
-            System.out.println("도서 삭제 실패");
+            System.out.println("도서 상태 삭제 완료!");
+            int result = bookManageDAO.deleteBook(getConnection(), subject);
+            if(result == 1){
+                System.out.println("도서 삭제를 성공하였습니다.");
+            }else {
+                System.out.println("도서 삭제 실패");
+            }
         }
 
     }

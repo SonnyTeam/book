@@ -101,7 +101,7 @@
 
     <entry key="genresearch">
         SELECT
-        A.* , B.STATUS_RENT, B.STATUS_RESERVE
+        A.* , B.STATUS_RENT
         FROM
         TBL_BOOK A JOIN TBL_STATUS B
         ON
@@ -169,4 +169,9 @@
         ISBN = ?
     </entry>
 
+    <entry key="showUserInfo">
+        SELECT *
+        FROM tbl_user
+        WHERE user_code = ?
+    </entry>
 </properties>
