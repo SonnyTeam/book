@@ -5,7 +5,7 @@ import static com.ohgiraffers.JDBCTemplate.JDBCTemplate.getConnection;
 public class CommonMemberFT {
 
 
-    private CommonMemberFTDAO dao = new CommonMemberFTDAO("src/main/resources/mapper/book-query.xml");
+    public CommonMemberFTDAO dao = new CommonMemberFTDAO("src/main/resources/mapper/book-query.xml");
 
 
     public String rental(int a){ //책 대여

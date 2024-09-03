@@ -34,7 +34,8 @@ public class Application {
                 case 3:
                     signUp.signUp();
                     break;
-                case 4:
+                case 9:
+                    System.out.println("프로그램이 종료됩니다.");
                     return;
                 case 9: return;
                 default:

@@ -131,7 +131,7 @@ public class Manager {
     public void book_status(){
 
         BookController bookController = new BookController();
-        //while문 추가 = list 못받아옴
+
         loop:while(true){
 
             Scanner scr = new Scanner(System.in);
