@@ -32,6 +32,7 @@ public class BookController {
 
             StatusDTO statusDTO = bookDAO.getStatusDTO(getConnection(), subject);
             String currentStatus = statusDTO.getStatus_rent();
+            int currentUserCode = statusDTO.getUser_code();
 
             if(currentStatus==null || currentStatus.equals("")){
                 System.out.println("없는 책입니다. 다시 입력해주세요.");
@@ -39,10 +40,13 @@ public class BookController {
             }
 
 
+
             while(true){
                 int answer = 0;
                 if(currentStatus.equals("대여 중")){
-                    System.out.println("해당 도서는 " + currentStatus + " 상태 입니다. 반납하시곘습니까?");
+
+                        System.out.println("해당 도서는 " + currentStatus + " 상태 입니다. 반납하시겠습니까?");
+
                   /*  System.out.println("1.반납 2.대여");
                     int choice = scr.nextInt();
                     switch(choice){
@@ -66,6 +70,7 @@ public class BookController {
                     }
                     //System.out.println("'" + differentStatus + "'으로 변경할 회원명을 입력해주세요.");
                     String name = scr.nextLine();
+                    // System.out.println(name);
                     int result = bookDAO.updateStatus(getConnection(), subject, name);
 
                     if(result == 1){
@@ -92,14 +97,15 @@ public class BookController {
     public void selectStatus(){
 
         // List<StatusDTO> list = bookDAO.selectStatus(getConnection());
-        List<StatusDTO> list = bookDAO.selectStatus();
+        List<StatusDTO> list = bookDAO.selectStatus(getConnection());
 
 
         if(list.isEmpty()){
             System.out.println("변경된 이력이 없습니다.");
         }else {
             for(StatusDTO statusDTO : list){
-                System.out.println(statusDTO);
+                // System.out.println(statusDTO);
+                System.out.println(statusDTO.getSubject() + " | " + statusDTO.getStatus_rent() + " | " + statusDTO.getStatus_reserve() + " | " + statusDTO.getDate_rent() + " | " + statusDTO.getDate_return());
             }
         }
 

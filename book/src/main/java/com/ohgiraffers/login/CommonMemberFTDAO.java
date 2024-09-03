@@ -34,14 +34,23 @@ public class CommonMemberFTDAO {
 
         int userCode = a;
         int result =0;
-        System.out.println("대여하실 책 번호 : ");
-        int num = sc.nextInt();
-        sc.nextLine();
+        System.out.println("대여하실 책 제목 : ");
+        String subject = sc.nextLine();
+
 
         try {
             startTime = LocalDate.now();
 
             prop.loadFromXML(new FileInputStream("src/main/resources/mapper/book-query.xml"));
+            prop.loadFromXML(new FileInputStream("src/main/resources/mapper/book-query.xml"));
+            pstmt = con.prepareStatement(prop.getProperty("findISBN"));
+            pstmt.setString(1, subject);
+            rset = pstmt.executeQuery();
+            int num = 0;
+            while(rset.next()){
+                num = rset.getInt("ISBN");
+            }
+
             pstmt = con.prepareStatement(prop.getProperty("checkbookstatus"));
             pstmt.setInt(1, num);
             rset = pstmt.executeQuery();
@@ -54,12 +63,13 @@ public class CommonMemberFTDAO {
                 }else {
 
                     pstmt = con.prepareStatement(prop.getProperty("rentalable"));
-                    pstmt.setInt(6, num);
+                    pstmt.setInt(7, num);
                     pstmt.setString(1, "대여 중");
                     pstmt.setString(2, "예약가능");
                     pstmt.setString(3, startTime.toString());
-                    pstmt.setString(4, startTime.plusDays(30).toString());
-                    pstmt.setInt(5, userCode);
+                    pstmt.setString(4, null);
+                    pstmt.setString(5, startTime.plusDays(30).toString());
+                    pstmt.setInt(6, userCode);
 
 
                     result = pstmt.executeUpdate();
@@ -83,15 +93,22 @@ public class CommonMemberFTDAO {
 
     public String returnBook(int a, Connection con){
         int userCode = a;
-        System.out.println("반납하실 책 번호 : ");
         int result = 0;
-        int num = sc.nextInt();
-        sc.nextLine();
+
+        System.out.println("반납하실 책 제목 : ");
+        String subject = sc.nextLine();
 
         startTime = LocalDate.now();
 
         try {
             prop.loadFromXML(new FileInputStream("src/main/resources/mapper/book-query.xml"));
+            pstmt = con.prepareStatement(prop.getProperty("findISBN"));
+            pstmt.setString(1, subject);
+            rset = pstmt.executeQuery();
+            int num = 0;
+            while(rset.next()){
+                num = rset.getInt("ISBN");
+            }
 
             pstmt = con.prepareStatement(prop.getProperty("checkbookstatus"));
             pstmt.setInt(1, num);
@@ -284,13 +301,23 @@ public class CommonMemberFTDAO {
 
     public String reserves(int a, Connection con){
         int userCode = a;
+
         //대여중만 예약하기
         System.out.println("예약하실 책 제목을 입력해주세요.");
+        String subject = sc.nextLine();
 
-        int reserveNum = sc.nextInt();
         int result = 0;
+
         try {
             prop.loadFromXML(new FileInputStream("src/main/resources/mapper/book-query.xml"));
+            pstmt = con.prepareStatement(prop.getProperty("findISBN"));
+            pstmt.setString(1, subject);
+            rset = pstmt.executeQuery();
+            int reserveNum = 0;
+            while(rset.next()){
+                reserveNum = rset.getInt("ISBN");
+            }
+
             pstmt = con.prepareStatement(prop.getProperty("checkbookstatus"));
             pstmt.setInt(1, reserveNum);
             rset = pstmt.executeQuery();
@@ -299,7 +326,7 @@ public class CommonMemberFTDAO {
                 String rentStataus = rset.getString("STATUS_RENT");
                 if(rentStataus.equals("대여 중")){
 
-                    System.out.println(rentStataus);
+                    // System.out.println(rentStataus);
 
                     String currentStatus = rset.getString("STATUS_RESERVE");
                     int retnUserCode = rset.getInt("USER_CODE");

@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import static com.ohgiraffers.JDBCTemplate.JDBCTemplate.*;
+
 public class BookDAO {
     private Properties prop = new Properties();
     private static List<StatusDTO> statusList = new ArrayList<>();
@@ -40,7 +42,9 @@ public class BookDAO {
             String status_reserve = "";
             String date_rent = "";
             String date_return = "";
+            String date_end = "";
             int isbn = 0;
+            int user_code = 0;
 
             while (rset.next()) {
                 status_rent = rset.getString(2);
@@ -48,12 +52,18 @@ public class BookDAO {
                 date_rent = rset.getString(4);
                 date_return = rset.getString(5);
                 isbn = rset.getInt(6);
+                user_code = rset.getInt(7);
+                date_end = rset.getString(8);
             }
 
 
-            statusDTO = new StatusDTO(subject, status_rent, status_reserve, date_rent, date_return, isbn);
+            statusDTO = new StatusDTO(subject, status_rent, status_reserve, date_rent, date_return, isbn, user_code, date_end);
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            //close(con);
+            close(pstmt);
+            // close(rset);
         }
 
         return statusDTO;
@@ -64,6 +74,7 @@ public class BookDAO {
     public int updateStatus(Connection con, String subject, String name){
 
         PreparedStatement pstmt = null;
+        // PreparedStatement pstmt2 = null;
         ResultSet rset = null;
         int result = 0;
 
@@ -81,31 +92,56 @@ public class BookDAO {
 
             //con.setAutoCommit(false);
             pstmt = con.prepareStatement(prop.getProperty("findUserCode"));
+
             pstmt.setString(1, name);
             rset = pstmt.executeQuery();
             String code = "";
 
+            // System.out.println(pstmt);
+
             while(rset.next()){
                 code = rset.getString(1);
             }
+            System.out.println(code);
 
+            if(code == null){
+                System.out.println("없는 회원입니다.");
+                return result;
+            }
 
+            String currentCode = String.valueOf(currentStatus.getUser_code());
+            /*if(currentCode == null && !currentCode.equals(code)){
+                // 현재유저코드가 null이면서 현재 사용자의 코드와같지않을때 같을 때 다 대여가능.
+                // 대여가능
+            }else */if(!code.equals(currentCode) && currentStatus.getStatus_rent().equals("대여 중")){
+                // 현재유저코드랑 사용자의 코드랑 같지않을 때 -> 반납 시만 문제..
+                // 대여 중
+                System.out.println("회원이 일치하지 않습니다.");
+                return result;
+            }
+
+            pstmt.close();
             pstmt = con.prepareStatement(prop.getProperty("updateStatus"));
+
+
 
             String statusRent = currentStatus.getStatus_rent().equals("대여 중") ? "대여가능" : "대여 중";
             // 예약은 수정해야함.
             String statusReserve = currentStatus.getStatus_rent().equals("대여 중") ? "예약불가" : "예약가능";
             String dateRent = statusRent.equals("대여 중") ? LocalDate.now().toString() : currentStatus.getDate_rent();
             String dateReturn = statusRent.equals("대여 중") ? null : LocalDate.now().toString();
+            String dateEnd = statusRent.equals("대여 중") ? LocalDate.now().plusDays(30).toString() : currentStatus.getDate_end();
             int isbn = currentStatus.getIsbn();
+
 
             pstmt.setString(1, statusRent);
             pstmt.setString(2, statusReserve);
             pstmt.setString(3, code);
             pstmt.setString(4, dateRent);
             pstmt.setString(5, dateReturn);
-            pstmt.setString(6, currentStatus.getStatus_rent());
-            pstmt.setInt(7, isbn);
+            pstmt.setString(6, dateEnd);
+            pstmt.setString(7, currentStatus.getStatus_rent());
+            pstmt.setInt(8, isbn);
 
             // 변경된 이력 저장
             StatusDTO updateStatus = new StatusDTO(subject, statusRent, statusReserve, dateRent, dateReturn, isbn);
@@ -120,14 +156,19 @@ public class BookDAO {
             //con.rollback();
 
         } catch (SQLException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             System.out.println("잘못 입력하셨습니다.");
             // throw new RuntimeException(e);
+        } finally {
+            close(con);
+            close(pstmt);
+            close(rset);
+
         }
 
 
         // 디버깅: 리스트 상태 확인
-        System.out.println("updateStatus() - statusList size: " + statusList.size());
+        // System.out.println("updateStatus() - statusList size: " + statusList.size());
 
         return result;
     }
@@ -136,10 +177,47 @@ public class BookDAO {
 
 
 
-    public List<StatusDTO> selectStatus() {
+    public List<StatusDTO> selectStatus(Connection con) {
 
         // 디버깅: 리스트 상태 확인
-        System.out.println("selectStatus() - statusList size: " + statusList.size());
+        // System.out.println("selectStatus() - statusList size: " + statusList.size());
+        PreparedStatement pstmt = null;
+        int result = 0;
+
+        try {
+
+            if(!statusList.isEmpty()){
+                for(StatusDTO statusDTO : statusList){
+                    pstmt = con.prepareStatement(prop.getProperty("insertHistory"));
+                    String userCode = String.valueOf(Integer.valueOf(statusDTO.getUser_code()));
+                    if(statusDTO.getUser_code() == 0){
+                        pstmt.setString(2, null);
+                    }else {
+                        pstmt.setInt(2, statusDTO.getUser_code());
+                    }
+
+                    pstmt.setInt(1, statusDTO.getIsbn());
+                    pstmt.setString(3, statusDTO.getStatus_rent());
+                    pstmt.setString(4, statusDTO.getStatus_reserve());
+                    pstmt.setString(5, statusDTO.getDate_rent());
+                    pstmt.setString(6, statusDTO.getDate_return());
+                    pstmt.setString(7, statusDTO.getDate_end());
+
+                    result = pstmt.executeUpdate();
+                }
+
+
+                if(result == 1){
+                    System.out.println("데이터베이스에 저장되었습니다.");
+                }else {
+                    System.out.println("데이터베이스 저장 실패");
+                }
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
 
         return new ArrayList<>(statusList);

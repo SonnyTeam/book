@@ -8,6 +8,8 @@ public class StatusDTO {
     private String date_rent;
     private String date_return;
     private int isbn;
+    private int user_code;
+    private String date_end;
 
     public StatusDTO() {
     }
@@ -32,6 +34,16 @@ public class StatusDTO {
         this.date_rent = date_rent;
         this.date_return = date_return;
         this.isbn = isbn;
+
+    }public StatusDTO(String subject, String status_rent, String status_reserve, String date_rent, String date_return, int isbn, int user_code, String date_end) {
+        this.subject = subject;
+        this.status_rent = status_rent;
+        this.status_reserve = status_reserve;
+        this.date_rent = date_rent;
+        this.date_return = date_return;
+        this.isbn = isbn;
+        this.user_code = user_code;
+        this.date_end = date_end;
     }
 
     public String getSubject() {
@@ -82,6 +94,22 @@ public class StatusDTO {
         this.status_reserve = status_reserve;
     }
 
+    public int getUser_code() {
+        return user_code;
+    }
+
+    public void setUser_code(int user_code) {
+        this.user_code = user_code;
+    }
+
+    public String getDate_end() {
+        return date_end;
+    }
+
+    public void setDate_end(String date_end) {
+        this.date_end = date_end;
+    }
+
     @Override
     public String toString() {
         return "StatusDTO{" +
@@ -91,6 +119,8 @@ public class StatusDTO {
                 ", date_rent='" + date_rent + '\'' +
                 ", date_return='" + date_return + '\'' +
                 ", isbn=" + isbn +
+                ", user_code=" + user_code +
+                ", date_end='" + date_end + '\'' +
                 '}';
     }
 }
