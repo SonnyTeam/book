@@ -43,11 +43,11 @@ public class OverdueDAO {
             rset = pstmt.executeQuery();
 
             while(rset.next()){
-                System.out.print(rset.getInt(1));
-                System.out.print(rset.getInt(2));
-                System.out.print(rset.getInt(3));
-                System.out.print(rset.getString(4));
-                System.out.print(rset.getString(5));
+                System.out.print(rset.getInt(1)+" ");
+                System.out.print(rset.getInt(2)+" ");
+                System.out.print(rset.getInt(3)+" ");
+                System.out.print(rset.getString(4)+" ");
+                System.out.println(rset.getString(5)+" ");
             }
 
         } catch (IOException | SQLException e) {
@@ -67,11 +67,10 @@ public class OverdueDAO {
             pstmt = con.prepareStatement(prop.getProperty("keyAndval"));
             rset = pstmt.executeQuery();
             while(rset.next()) {
-                if (!rset.getString("DATE_END").equals("NULL")) {
+                if (rset.getString("STATUS_RENT").equals("대여 중")){
                     isbnDate.put(rset.getInt("ISBN"), rset.getString("DATE_END"));
-                }
+                 }
             }
-
         } catch (IOException | SQLException e) {
             throw new RuntimeException(e);
         }finally {
@@ -83,57 +82,68 @@ public class OverdueDAO {
     public Map<Integer, String> getIsbnDate() {
         return isbnDate;
     }
-    public void insertauto(Map<Integer,String> isbnDate, Connection con){
 
+    public void insertauto(Map<Integer,String> isbnDate, Connection con){
         try {
+            pstmt = con.prepareStatement("TRUNCATE TABLE tbl_overdue");
+            pstmt.executeUpdate();
+
             prop.loadFromXML(new FileInputStream("src/main/resources/mapper/book-query.xml"));
             pstmt = con.prepareStatement(prop.getProperty("autoinsert"));
 
             for(Map.Entry<Integer,String> entry : isbnDate.entrySet()){
                 int isbn = entry.getKey();
                 String endday = entry.getValue();
-                // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); //이 형식으로 초기화하고
+                //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); //이 형식으로 초기화하고
                 LocalDate dueday = LocalDate.parse(endday); // ,formatter
                 LocalDate currentDate = LocalDate.now();
 
-                long dateover = ChronoUnit.DAYS.between(dueday,currentDate); //일수빼기
+                long dateover = ChronoUnit.DAYS.between(currentDate,dueday); //일수빼기
 
-                int fee = calculateFee(String.valueOf(dateover));
+                int fee = calculateFee(dateover);
                 int userCode = getUserCode(isbn,getConnection());
 
-                pstmt.setInt(1, isbn);
+                int mul = fee/100;
+                pstmt.setInt(1,isbn);
+
                 pstmt.setInt(2, userCode);
+
                 pstmt.setInt(3, fee);
-                pstmt.setString(4, String.valueOf(dateover));
+
+                pstmt.setInt(4, mul);
 
                 pstmt.executeUpdate();
-
             }
 
         } catch (IOException | SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    public int calculateFee(String dateover){
+    public int calculateFee(long dateover){
         //연체일을 통해 계산하는 과정
-        return 100*Integer.parseInt(dateover);
+        int a = (int)dateover;
+        return a*100;
     }
 
 
     public int getUserCode(int isbn, Connection con) {
         int userCode=0;
+        PreparedStatement pstmt = null;
         try {
             prop.loadFromXML(new FileInputStream("src/main/resources/mapper/book-query.xml"));
             pstmt = con.prepareStatement(prop.getProperty("finduserbyisbn"));
-
+            pstmt.setInt(1, isbn);
             rset = pstmt.executeQuery();
             while (rset.next()) {
                 userCode = rset.getInt("user_code");
             }
         } catch (IOException | SQLException e) {
             throw new RuntimeException(e);
+        }finally {
+            close(con);
+            close(pstmt);
+            close(rset);
         }
-
         return userCode;
     }
 }
