@@ -4,15 +4,26 @@
 
     <entry key="rentalable">
         UPDATE TBL_STATUS
-        SET STATUS_RENT = ?, STATUS_RESERVE = ? , DATE_RENT = ?, DATE_RETURN = ?, DATE_END = ?, USER_CODE = ?
+        SET STATUS_RENT = ?, DATE_RENT = ?, DATE_RETURN = ?, DATE_END = ?, USER_CODE = ?
         WHERE ISBN = ?
     </entry>
+    <entry key="rentalable_reserve">
+        UPDATE TBL_RESERVE_STATUS
+        SET STATUS_RESERVE = ?
+        WHERE ISBN = ?
+    </entry>
+
     <entry key="returnBook">
         UPDATE TBL_STATUS
-        SET STATUS_RENT = ?, STATUS_RESERVE = DEFAULT, DATE_RETURN = ?
+        SET STATUS_RENT = ?, DATE_RETURN = ?
         WHERE ISBN = ?
-
     </entry>
+    <entry key="returnBook_reserve">
+        UPDATE TBL_RESERVE_STATUS
+        SET STATUS_RESERVE = ?
+        WHERE ISBN = ?
+    </entry>
+
     <entry key="titleSearch">
 
         SELECT
@@ -64,7 +75,6 @@
     <entry key="checkbookstatus"> <!--책 대여 여부 확인하는 xml -->
         SELECT
             STATUS_RENT,
-            STATUS_RESERVE,
             DATE_END,
             USER_CODE
         FROM
@@ -73,16 +83,16 @@
             ISBN = ?
     </entry>
 
-    <entry key="checkbookreseve"> <!--책 예약 여부 확인하는 xml -->
+    <entry key="checkbookReserve"> <!--책 예약 여부 확인하는 xml -->
         SELECT
-        STATUS_RESERVE
+            STATUS_RESERVE
         FROM
-        TBL_STATUS
+            TBL_RESERVE_STATUS
         WHERE
-        ISBN = ?
+            ISBN = ?
     </entry>
-    <entry key="setreserve">
-        UPDATE TBL_STATUS
+    <entry key="setReserve">
+        UPDATE TBL_RESERVE_STATUS
         SET STATUS_RESERVE = ?, USER_CODE = ?
         WHERE ISBN = ?
 
