@@ -11,7 +11,7 @@ import static com.ohgiraffers.JDBCTemplate.JDBCTemplate.getConnection;
 
 public class Login {
 
-    private LoginDAO loginDAO = new LoginDAO("src/main/resources/mapper/book-query.xml");
+    private LoginDAO loginDAO = new LoginDAO("C:/Users/user/IdeaProjects/book0903/book/src/main/resources/mapper/book-query.xml");
 
 
     public void login(){

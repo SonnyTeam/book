@@ -140,12 +140,16 @@
 
     <entry key="overduelist">
         SELECT
-        A.*,
-        B.NAME
+        C.SUBJECT,
+        B.NAME,
+        A.DATE_OVERDUE,
+        A.FEE
         FROM
         TBL_OVERDUE A
         JOIN
-        TBL_USER B ON A.USER_CODE = B.USER_CODE;
+        TBL_USER B ON A.USER_CODE = B.USER_CODE
+        JOIN
+        TBL_BOOK C ON A.ISBN = C.ISBN;
     </entry>
     <entry key="keyAndval">
         SELECT
@@ -159,6 +163,11 @@
         INSERT INTO
         tbl_overdue (ISBN, user_code, fee, date_overdue)
         VALUES (?, ?, ?, ?)
+    </entry>
+    <entry key="overduestatus">
+        update tbl_status
+        set overdue_status = 'Y'
+        where isbn = ?
     </entry>
     <entry key="finduserbyisbn">
         SELECT

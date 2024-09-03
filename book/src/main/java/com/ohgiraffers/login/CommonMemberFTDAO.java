@@ -221,10 +221,12 @@ public class CommonMemberFTDAO {
         System.out.println("책 제목 : ");
         String title = sc.nextLine();
         try {
-
+            System.out.println("!");
             pstmt = con.prepareStatement(prop.getProperty("titleSearch"));
             pstmt.setString(1, title);
+            System.out.println("!");
             rset = pstmt.executeQuery();
+            System.out.println("!");
             while (rset.next()) {
                 System.out.println(rset.getString("SUBJECT") +
                         rset.getString("AUTHOR") +
