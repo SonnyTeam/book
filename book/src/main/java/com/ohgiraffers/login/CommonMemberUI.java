@@ -10,13 +10,13 @@ public class CommonMemberUI {
 
     public String userUI(int a){
         int userCode = a;
-        while(true){
+        loop:while(true){
             System.out.println("일반 회원 메뉴");
             System.out.println("1. 도서 검색");
             System.out.println("2. 대여");
             System.out.println("3. 반납");
             System.out.println("4. 예약하기");
-            // System.out.println("9. 로그아웃");
+            System.out.println("9. 로그아웃");
             int num = sc.nextInt();
             sc.nextLine();
             switch (num) {
@@ -31,14 +31,15 @@ public class CommonMemberUI {
                     break;
                 case 4:
                     ft.reserves(userCode); break;
-                /*case 9:
+                case 9:
                     System.out.println("로그아웃 성공 ! 👋");
-                   return;*/
+                    break loop;
                 default:
                     System.out.println("잘못입력");
                     break;
             }
         }
+        return null;
     }
     public void searchBook(){
 

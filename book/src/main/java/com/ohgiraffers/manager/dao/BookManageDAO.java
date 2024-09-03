@@ -71,7 +71,7 @@ public class BookManageDAO {
         if(bookDTO.getSubject() == null){
 
         }
-        String query = "UPDATE tbl_book SET"+;
+        String query = "UPDATE tbl_book SET ";
         /*subject = ?,
         author = ?,
         publisher = ?,
@@ -97,12 +97,19 @@ public class BookManageDAO {
         if (bookDTO.getPages() != 0) {
             query = query + "pages = " + bookDTO.getPages() + ", ";
         }
+        query =query.substring(0,query.length()-1);
+        query = query + "WHERE ISBN = " + isbn;
+
+        System.out.println(query);
+
         //query 문에서 마지막 , 제거후 where isbn = ? 추가
        /* query.split(,)
 
         pstmt = con.prepareStatement(query);*/
 
 
+        //
+        return 0;
 
     }
 }
