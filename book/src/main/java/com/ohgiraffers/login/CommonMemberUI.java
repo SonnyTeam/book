@@ -30,7 +30,8 @@ public class CommonMemberUI {
                     ft.returnBook(userCode);
                     break;
                 case 4:
-                    ft.reserves(userCode); break;
+                    ft.reserves(userCode);
+                    break;
                 case 9:
                     System.out.println("로그아웃 성공 ! 👋");
                     break loop;

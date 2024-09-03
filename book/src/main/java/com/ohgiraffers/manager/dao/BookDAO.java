@@ -294,6 +294,14 @@ public class BookDAO {
         ResultSet rset = null;
 
         try {
+           /* pstmt = con.prepareStatement(prop.getProperty("selectReserveHistory"));
+
+            rset = pstmt.executeQuery();
+            String name = "";
+            while(rset.next()){
+                name = rset.getString(1);
+            }
+*/
             pstmt = con.prepareStatement(prop.getProperty("selectHistory"));
             rset = pstmt.executeQuery();
 
@@ -305,7 +313,7 @@ public class BookDAO {
                         + " | 대여일 : " + rset.getString(4)
                         + " | 반납일 : " + rset.getString(5)
                         + " | 반납기한 : " + rset.getString(6)
-                        + " | 사용자(예약) : " + rset.getString(7)
+                        + " | 사용자(예약) : " + rset.getString(7) //name
                         + " | 도서상태(예약) : " + rset.getString(8));
             }
             System.out.println();

@@ -37,7 +37,6 @@ public class Application {
                 case 9:
                     System.out.println("프로그램이 종료됩니다.");
                     return;
-                case 9: return;
                 default:
                     System.out.println("잘못된 번호를 입력하셨습니다.");
             }
