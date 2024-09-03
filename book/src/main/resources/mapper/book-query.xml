@@ -128,4 +128,38 @@
          WHERE SUBJECT = ?
     </entry>
 
+    <entry key="overduelist">
+        SELECT
+        A.*,
+        B.NAME
+
+        FROM
+        TBL_OVERDUE A
+        JOIN
+        TBL_USER B ON A.USER_CODE = B.USER_CODE
+        JOIN
+        TBL_BOOK C ON A.ISBN = A.ISBN;
+    </entry>
+    <entry key="keyAndval">
+        SELECT
+        ISBN,
+        DATE_END
+        FROM TBL_STATUS
+        DATE_END &lt; CURDATE();
+
+    </entry>
+    <entry key="autoinsert">
+        INSERT INTO
+        tbl_overdue (ISBN, user_code, fee, date_overdue)
+        VALUES (?, ?, ?, ?)
+    </entry>
+    <entry key="finduserbyisbn">
+        SELECT
+        user_code
+        FROM
+        tbl_book
+        WHERE
+        ISBN = ?
+    </entry>
+
 </properties>
