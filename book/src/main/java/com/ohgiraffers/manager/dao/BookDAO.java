@@ -372,21 +372,6 @@ public class BookDAO {
             throw new RuntimeException(e);
         }
 
-
-    }
-    public void statushistory(Connection con) {
-        PreparedStatement pstmt = null;
-        ResultSet rset = null;
-
-        try {
-            prop.loadFromXML(new FileInputStream("src/main/resources/mapper/book-query.xml"));
-
-
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
 }

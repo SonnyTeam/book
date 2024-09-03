@@ -5,31 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="36960899-798b-4d97-831a-2c3d46d23e57" name="Changes" comment="Changes">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_protobuf_protobuf_java_3_21_9.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_mysql_mysql_connector_j_8_0_33.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_apiguardian_apiguardian_api_1_1_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_junit_jupiter_junit_jupiter_5_10_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_junit_jupiter_junit_jupiter_api_5_10_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_junit_jupiter_junit_jupiter_engine_5_10_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_junit_jupiter_junit_jupiter_params_5_10_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_junit_platform_junit_platform_commons_1_10_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_junit_platform_junit_platform_engine_1_10_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_opentest4j_opentest4j_1_3_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/book.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/book.main.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/book.test.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/book/src/main/java/com/ohgiraffers/login/CommonMemberFTDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/book/src/main/java/com/ohgiraffers/login/CommonMemberFTDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/book/src/main/java/com/ohgiraffers/login/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/book/src/main/java/com/ohgiraffers/login/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/book/src/main/java/com/ohgiraffers/manager/controller/Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/book/src/main/java/com/ohgiraffers/manager/controller/Manager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/book/src/main/java/com/ohgiraffers/manager/dao/BookDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/book/src/main/java/com/ohgiraffers/manager/dao/BookDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/book/src/main/java/com/ohgiraffers/overdue/OverdueController.java" beforeDir="false" afterPath="$PROJECT_DIR$/book/src/main/java/com/ohgiraffers/overdue/OverdueController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/book/src/main/java/com/ohgiraffers/overdue/OverdueDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/book/src/main/java/com/ohgiraffers/overdue/OverdueDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/book/src/main/resources/mapper/book-query.xml" beforeDir="false" afterPath="$PROJECT_DIR$/book/src/main/resources/mapper/book-query.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/book/src/main/resources/mapper/manager-query.xml" beforeDir="false" afterPath="$PROJECT_DIR$/book/src/main/resources/mapper/manager-query.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +62,7 @@
     </excluded-from-favorite>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/bookmanage" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -129,7 +107,7 @@
     "Gradle.book [:Application.main()].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "feature/homeover",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/user/IdeaProjects/book0903/book",
     "node.js.detected.package.eslint": "true",
@@ -205,8 +183,17 @@
       <workItem from="1725237047736" duration="1680000" />
       <workItem from="1725329370346" duration="10717000" />
       <workItem from="1725369023971" duration="1782000" />
-      <workItem from="1725370879106" duration="10180000" />
+      <workItem from="1725370879106" duration="10498000" />
     </task>
+    <task id="LOCAL-00001" summary="Changes">
+      <option name="closed" value="true" />
+      <created>1725381236134</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1725381236134</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -214,6 +201,10 @@
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.bat" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
