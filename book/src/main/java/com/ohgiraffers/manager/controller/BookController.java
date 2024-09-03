@@ -27,7 +27,6 @@ public class BookController {
         System.out.println("도서 상태 변경을 시작합니다....");
         loop:while(true){
             System.out.println("상태를 변경할 도서의 제목을 입력해주세요.");
-            // System.out.println("대여 중 <-> 대여가능 / 예약불가,예약 중 <-> 예약가능");
             String subject = scr.nextLine();
 
             StatusDTO statusDTO = bookDAO.getStatusDTO(getConnection(), subject);
@@ -106,7 +105,13 @@ public class BookController {
 
     // 도서 상태 변경 기록 조회
     public void selectStatus(){
-        bookDAO.selectStatus(getConnection());
+        int result = bookDAO.selectStatus(getConnection());
+
+        if(result == 1){
+
+        }else {
+            System.out.println("변경된 이력이 없습니다.");
+        }
         /*List<StatusDTO> list = bookDAO.selectStatus(getConnection());
 
         if(list.isEmpty()){

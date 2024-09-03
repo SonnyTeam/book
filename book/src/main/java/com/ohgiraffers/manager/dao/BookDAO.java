@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -103,12 +104,12 @@ public class BookDAO {
             rset = pstmt.executeQuery();
             String code = "";
 
-            // System.out.println(pstmt);
+            //System.out.println(pstmt);
 
             while(rset.next()){
                 code = rset.getString(1);
             }
-            // System.out.println(code);
+            //System.out.println(code);
 
             if(code == null){
                 System.out.println("없는 회원입니다.");
@@ -150,15 +151,15 @@ public class BookDAO {
             result = pstmt.executeUpdate();
 
             // 예약상태테이블도 수정
-            pstmt.close();
+             pstmt.close();
             pstmt = con.prepareStatement(prop.getProperty("updateReserveStatus"));
 
-
+            int codeI = Integer.parseInt(code);
             pstmt.setString(1, statusReserve);
             pstmt.setString(2, null);
             pstmt.setInt(3, isbn);
 
-            int codeI = Integer.parseInt(code);
+
             // 변경된 이력 저장
             StatusDTO updateStatus = new StatusDTO(subject, statusRent, statusReserve, dateRent, dateReturn, isbn, codeI, dateEnd);
             tempStatusList.add(updateStatus);
@@ -219,20 +220,24 @@ public class BookDAO {
                 code = rset.getString(1);
             }
 
-            pstmt = con.prepareStatement(prop.getProperty("findUserCode"));
+            pstmt = con.prepareStatement(prop.getProperty("findThings"));
 
             pstmt.setString(1, subject);
             rset = pstmt.executeQuery();
             String compareCode = "";
 
-            if(compareCode == code){
+            while(rset.next()){
+                compareCode = rset.getString(1);
+            }
+
+
+            if(compareCode.equals(code)){
                 System.out.println("본인이 대여중인 책입니다. 다시 시도해주세요.");
                 return 0;
             }
 
 
-
-            if(code == null){
+            if(code == null || code.equals("")){
                 System.out.println("없는 회원입니다.");
                 return result;
             }
@@ -286,44 +291,136 @@ public class BookDAO {
     }
 
 
-
-    //public List<StatusDTO> selectStatus(Connection con) {
-    public void selectStatus(Connection con) {
-
+    public List<String> FindUserName(Connection con, List<String> list){
         PreparedStatement pstmt = null;
         ResultSet rset = null;
+        List<String> tempList = new ArrayList<>();
+
 
         try {
-           /* pstmt = con.prepareStatement(prop.getProperty("selectReserveHistory"));
+            pstmt = con.prepareStatement(prop.getProperty("selectUserName"));
+
+            for(String s : list){
+
+                if(s == null){
+                    pstmt.setNull(1, java.sql.Types.VARCHAR);
+                    pstmt.setNull(2, java.sql.Types.VARCHAR);
+                }else {
+                    pstmt.setString(1, s);
+                    pstmt.setString(2, s);
+                }
+
+            }
 
             rset = pstmt.executeQuery();
-            String name = "";
-            while(rset.next()){
-                name = rset.getString(1);
-            }
-*/
-            pstmt = con.prepareStatement(prop.getProperty("selectHistory"));
-            rset = pstmt.executeQuery();
 
-            System.out.println("====== 도서 상태변경 히스토리 ======");
-            while(rset.next()){
-                System.out.println("책 제목 : " + rset.getString(1)
-                        + " | 사용자(대여/반납) : " + rset.getString(2)
-                        + " | 도서상태(대여/반납) : " + rset.getString(3)
-                        + " | 대여일 : " + rset.getString(4)
-                        + " | 반납일 : " + rset.getString(5)
-                        + " | 반납기한 : " + rset.getString(6)
-                        + " | 사용자(예약) : " + rset.getString(7) //name
-                        + " | 도서상태(예약) : " + rset.getString(8));
+
+            if (rset.next()) {
+                tempList.add(rset.getString("name"));
+            } else {
+                tempList.add(null);
             }
-            System.out.println();
+
+
+            return tempList;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        // return new ArrayList<>(statusList);
     }
+
+
+    public int selectStatus(Connection con) {
+
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+        int result = 0;
+
+        List<String> subjectList = new ArrayList<>();
+        List<String> userCodeS = new ArrayList<>();
+        List<String> statusRent = new ArrayList<>();
+        List<String> dateRent = new ArrayList<>();
+        List<String> dateReturn = new ArrayList<>();
+        List<String> dateEnd = new ArrayList<>();
+        List<String> userCodeR = new ArrayList<>();
+        List<String> statusReserve = new ArrayList<>();
+        List<String> userNameS = new ArrayList<>();
+        List<String> userNameR = new ArrayList<>();
+
+        try {
+
+            pstmt = con.prepareStatement(prop.getProperty("selectHistory"));
+
+            rset = pstmt.executeQuery();
+
+            boolean hasNext = rset.next();
+            if(!hasNext){
+                result = 0;
+            }else {
+                do{
+
+                    // 사용자 이름 (대여)
+                    String userCode = rset.getString(2);
+                    userCodeR.add(userCode);
+
+                     List<String> names = FindUserName(con, Collections.singletonList(userCode));
+                    if (!names.isEmpty()) {
+                        userNameS.add(names.get(0));
+                    } else {
+                        userNameS.add(null);
+                    }
+
+                    // 사용자 이름 (예약)
+                    String userCode2 = rset.getString(7);
+                    userCodeR.add(userCode2);
+
+                     List<String> names2 = FindUserName(con, Collections.singletonList(userCode2));
+                    if (!names2.isEmpty()) {
+                        userNameR.add(names2.get(0));
+                    } else {
+                        userNameR.add(null);
+                    }
+
+
+                    subjectList.add(rset.getString(1));
+                    userCodeS.add(rset.getString(2));
+                    statusRent.add(rset.getString(3));
+                    dateRent.add(rset.getString(4));
+                    dateReturn.add(rset.getString(5));
+                    dateEnd.add(rset.getString(6));
+                    userCodeR.add(rset.getString(7));
+                    statusReserve.add(rset.getString(8));
+                } while(rset.next());
+
+                /*System.out.println(userNameS);
+                System.out.println(userNameR);*/
+
+                System.out.println("====== 도서 상태변경 히스토리 ======");
+                for (int i = 0; i < subjectList.size(); i++) {
+                    System.out.print("책 제목 : " + subjectList.get(i));
+                    System.out.print(" | 사용자(대여/반납) : " + userNameS.get(i));
+                    System.out.print(" | 도서상태(대여/반납) : " + statusRent.get(i));
+                    System.out.print(" | 대여일 : " + dateRent.get(i));
+                    System.out.print(" | 반납일 : " + dateReturn.get(i));
+                    System.out.print(" | 반납기한 : " + dateEnd.get(i));
+                    System.out.print(" | 사용자(예약) : " + userNameR.get(i));
+                    System.out.print(" | 도서상태(예약) : " + statusReserve.get(i));
+                    System.out.println();
+                }
+
+
+                result = 1;
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+
 
     public void storeHistory(Connection con) {
 

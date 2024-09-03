@@ -159,22 +159,21 @@ public class Manager {
         loop : while(true){
             Scanner scr = new Scanner(System.in);
             System.out.println("1. 회원 검색");
-            System.out.println("2. 회원 정보 수정");
-            System.out.println("3. 회원 삭제");
-            System.out.println("9. 전체 회원 리스트 보기");
+            System.out.println("2. 회원 삭제");
+            System.out.println("3. 전체 회원 리스트 보기");
 
             int choice = scr.nextInt();
 
             switch (choice){
                 case 1: userController.selectUser(); break loop;
-                case 2: userController.updateUser(); break loop;
-                case 3: userController.deleteUser(); break loop;
-                case 9: userController.userList(); break loop;
+                case 2: userController.deleteUser(); break loop;
+                case 3: userController.userList(); break loop;
                 default:
                     System.out.println("다시 입력해주세요.");
             }
         }
     }
+
     public void overDue(){
         OverdueController overdueController = new OverdueController();
         Scanner sc = new Scanner(System.in);

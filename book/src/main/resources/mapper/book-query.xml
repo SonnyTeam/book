@@ -27,7 +27,7 @@
     <entry key="titleSearch">
 
         SELECT
-        A.* , B.STATUS_RENT, B.STATUS_RESERVE
+        A.* , B.STATUS_RENT<!--, B.STATUS_RESERVE-->
         FROM
         TBL_BOOK A JOIN TBL_STATUS B
         ON
@@ -37,7 +37,7 @@
     </entry>
     <entry key="allSearch">
         SELECT
-        A.* , B.STATUS_RENT, B.STATUS_RESERVE
+        A.* , B.STATUS_RENT<!--, B.STATUS_RESERVE-->
         FROM
         TBL_BOOK A JOIN TBL_STATUS B
         ON
@@ -52,7 +52,7 @@
     </entry>
     <entry key="authorsearch">
         SELECT
-        A.* , B.STATUS_RENT, B.STATUS_RESERVE
+        A.* , B.STATUS_RENT <!--, B.STATUS_RESERVE-->
         FROM
         TBL_BOOK A JOIN TBL_STATUS B
         ON
@@ -63,7 +63,7 @@
     </entry>
     <entry key="yearsearch">
         SELECT
-        A.* , B.STATUS_RENT, B.STATUS_RESERVE
+        A.* , B.STATUS_RENT<!--, B.STATUS_RESERVE-->
         FROM
         TBL_BOOK A JOIN TBL_STATUS B
         ON
