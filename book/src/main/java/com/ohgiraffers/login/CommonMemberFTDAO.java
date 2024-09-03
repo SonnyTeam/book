@@ -356,7 +356,7 @@ public class CommonMemberFTDAO {
         }
     }
 
-    public String reserves(int a, Connection con){
+    public int reserves(int a, Connection con){
         int userCode = a;
 
         //대여중만 예약하기
@@ -409,14 +409,14 @@ public class CommonMemberFTDAO {
 
                 if(retnUserCode == userCode){
                     System.out.println("본인이 대여중인 책입니다. 다시 시도해주세요.");
-                    return ui.userUI(userCode);
+                    result = 0;
                 }
 
                 if ("예약 중".equals(currentStatus)) {
                     // System.out.println("예약 중 ");
 
                     System.out.println("예약 중인 책입니다. 이전으로 돌아갑니다");
-                    return ui.userUI(userCode);
+                    result = 0;
                 }else{
                     // System.out.println("대여 중 예약가능");
 
@@ -425,10 +425,9 @@ public class CommonMemberFTDAO {
                     pstmt.setInt(3, reserveNum);
                     pstmt.setString(1,"예약 중");
                     pstmt.setInt(2, userCode);
-                    pstmt.executeUpdate();
+                    result = pstmt.executeUpdate();
 
-                    pstmt = con.prepareStatement(prop.getProperty("checkbookstatus"));
-                    pstmt.setInt(1, reserveNum);
+
 
                     // 변경된 이력 저장
                     StatusDTO updateStatus = new StatusDTO(subject, currentStatusDTO.getStatus_rent(), "예약 중", currentStatusDTO.getDate_rent(), currentStatusDTO.getDate_return(), reserveNum, userCode, currentStatusDTO.getDate_end());
@@ -438,19 +437,25 @@ public class CommonMemberFTDAO {
 
                     bookDAO.storeHistory(con);
 
+                    /*
+
+                    pstmt = con.prepareStatement(prop.getProperty("checkbookstatus"));
+                    pstmt.setInt(1, reserveNum);
+
                     rset = pstmt.executeQuery();
+
                     String endDay = "";
                     while(rset.next()) {
                         endDay = rset.getString("DATE_END");
-                    }
-                    System.out.println("예약 완료했습니다 "+ endDay+" 이후로 수령 가능합니다.");
+                    }*/
+                    // System.out.println("예약 완료했습니다 "+ endDay+" 이후로 수령 가능합니다.");
 
 
                 }
             }else {
                 // 대여가능
                 System.out.println("예약불가인 책입니다. 이전으로 돌아갑니다");
-                return ui.userUI(userCode);
+                result = 0;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -459,7 +464,7 @@ public class CommonMemberFTDAO {
             close(pstmt);
             close(rset);
         }
-        return null;
+        return result;
     }
 
 }

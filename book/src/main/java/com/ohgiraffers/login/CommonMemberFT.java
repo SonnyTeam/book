@@ -38,10 +38,14 @@ public class CommonMemberFT {
         dao.allSearch(getConnection());
     }
 
-    public String reserves(int a){
-        String returnReserve = dao.reserves(a, getConnection());
+    public void reserves(int a){
+        int result = dao.reserves(a, getConnection());
 
-        return returnReserve;
+        if(result == 1){
+            System.out.println("예약 완료했습니다 ");
+        }else {
+            System.out.println("예약에 실패했습니다.");
+        }
     }
 
 }
