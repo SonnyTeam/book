@@ -45,14 +45,15 @@ public class BookController {
                 int answer = 0;
                 if(currentStatus.equals("대여 중")){
 
-                        System.out.println("해당 도서는 " + currentStatus + " 상태 입니다. 반납하시겠습니까?");
+                        System.out.println("해당 도서는 " + currentStatus + " 상태 입니다.");
+                        //System.out.println("해당 도서는 " + currentStatus + " 상태 입니다. 반납하시겠습니까?");
 
-                  /*  System.out.println("1.반납 2.대여");
+                    System.out.println("1.반납 2.대여");
                     int choice = scr.nextInt();
                     switch(choice){
                         case 1: answer=1; break;
                         case 2: answer=3; break;
-                    }*/
+                    }
                 }else {
                     System.out.println("해당 도서는 " + currentStatus + " 상태 입니다. 대여하시겠습니까?");
                 }
