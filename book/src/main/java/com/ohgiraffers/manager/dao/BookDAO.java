@@ -155,9 +155,10 @@ public class BookDAO {
             pstmt = con.prepareStatement(prop.getProperty("updateReserveStatus"));
 
             int codeI = Integer.parseInt(code);
+
             pstmt.setString(1, statusReserve);
             pstmt.setString(2, null);
-            pstmt.setInt(3, isbn);
+            pstmt.setInt(2, isbn);
 
 
             // 변경된 이력 저장
@@ -207,7 +208,6 @@ public class BookDAO {
             if(currentStatus != null){
                 tempStatusList.add(currentStatus);
             }
-            //~첫번째 대여한사람의 정보를 임시로 저장
 
 
             pstmt = con.prepareStatement(prop.getProperty("findUserCode"));
@@ -215,11 +215,11 @@ public class BookDAO {
             pstmt.setString(1, name);
             rset = pstmt.executeQuery();
             String code = ""; // 입력한 사람의 사용자 코드
-            //~입력한 사람의 유저코드와 빌린 책번호를 가져옴
+
 
 
             while(rset.next()){
-                code = rset.getString(1); //~책번호는 왜??
+                code = rset.getString(1);
             }
 
             pstmt = con.prepareStatement(prop.getProperty("findThings"));
@@ -249,7 +249,6 @@ public class BookDAO {
 
 
             String statusRent = "대여 중";
-            // 예약은 수정해야함.
             String statusReserve = "예약 중";
             String dateRent = currentStatus.getDate_rent();
             String dateReturn = currentStatus.getDate_return();
@@ -258,7 +257,7 @@ public class BookDAO {
 
 
             pstmt.setString(1, statusReserve);
-            pstmt.setString(2, code); //유저코드를 문자열로?
+             pstmt.setString(2, code);
             pstmt.setInt(3, isbn);
 
             int codeI = Integer.parseInt(code);
@@ -292,7 +291,7 @@ public class BookDAO {
     }
 
 
-    public List<String> FindUserName(Connection con, List<String> list){
+    /*public List<String> FindUserName(Connection con, List<String> list){
         PreparedStatement pstmt = null;
         ResultSet rset = null;
         List<String> tempList = new ArrayList<>();
@@ -329,7 +328,7 @@ public class BookDAO {
             throw new RuntimeException(e);
         }
 
-    }
+    }*/
 
 
     public int selectStatus(Connection con) {
@@ -338,16 +337,6 @@ public class BookDAO {
         ResultSet rset = null;
         int result = 0;
 
-        List<String> subjectList = new ArrayList<>();
-        List<String> userCodeS = new ArrayList<>();
-        List<String> statusRent = new ArrayList<>();
-        List<String> dateRent = new ArrayList<>();
-        List<String> dateReturn = new ArrayList<>();
-        List<String> dateEnd = new ArrayList<>();
-        List<String> userCodeR = new ArrayList<>();
-        List<String> statusReserve = new ArrayList<>();
-        List<String> userNameS = new ArrayList<>();
-        List<String> userNameR = new ArrayList<>();
 
         try {
 
@@ -359,56 +348,20 @@ public class BookDAO {
             if(!hasNext){
                 result = 0;
             }else {
+                System.out.println("====== 도서 상태변경 히스토리 ======");
                 do{
 
-                    // 사용자 이름 (대여)
-                    String userCode = rset.getString(2);
-                    userCodeR.add(userCode);
-
-                     List<String> names = FindUserName(con, Collections.singletonList(userCode));
-                    if (!names.isEmpty()) {
-                        userNameS.add(names.get(0));
-                    } else {
-                        userNameS.add(null);
-                    }
-
-                    // 사용자 이름 (예약)
-                    String userCode2 = rset.getString(7);
-                    userCodeR.add(userCode2);
-
-                     List<String> names2 = FindUserName(con, Collections.singletonList(userCode2));
-                    if (!names2.isEmpty()) {
-                        userNameR.add(names2.get(0));
-                    } else {
-                        userNameR.add(null);
-                    }
+                System.out.println(" 책번호 : " + rset.getString(1)
+                                + " | 책제목 : " + rset.getString(2)
+                                + " | 사용자 : " + rset.getString(3)
+                                + " | 대여상태 : " + rset.getString(4)
+                                + " | 예약상태 : " + rset.getString(5)
+                                + " | 대여일 : " + rset.getString(6)
+                                + " | 반납일 : " + rset.getString(7)
+                                + " | 반납기한 : " + rset.getString(8));
 
 
-                    subjectList.add(rset.getString(1));
-                    userCodeS.add(rset.getString(2));
-                    statusRent.add(rset.getString(3));
-                    dateRent.add(rset.getString(4));
-                    dateReturn.add(rset.getString(5));
-                    dateEnd.add(rset.getString(6));
-                    userCodeR.add(rset.getString(7));
-                    statusReserve.add(rset.getString(8));
                 } while(rset.next());
-
-                /*System.out.println(userNameS);
-                System.out.println(userNameR);*/
-
-                System.out.println("====== 도서 상태변경 히스토리 ======");
-                for (int i = 0; i < subjectList.size(); i++) {
-                    System.out.print("책 제목 : " + subjectList.get(i));
-                    System.out.print(" | 사용자(대여/반납) : " + userNameS.get(i));
-                    System.out.print(" | 도서상태(대여/반납) : " + statusRent.get(i));
-                    System.out.print(" | 대여일 : " + dateRent.get(i));
-                    System.out.print(" | 반납일 : " + dateReturn.get(i));
-                    System.out.print(" | 반납기한 : " + dateEnd.get(i));
-                    System.out.print(" | 사용자(예약) : " + userNameR.get(i));
-                    System.out.print(" | 도서상태(예약) : " + statusReserve.get(i));
-                    System.out.println();
-                }
 
 
                 result = 1;

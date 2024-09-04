@@ -119,34 +119,21 @@
     </entry>
 
 
-    <!--<entry key="selectHistory">
-        SELECT
-            b.subject,
-            u.name user_rent,
-            s.status_rent,
-            s.date_rent,
-            s.date_return,
-            s.date_end,
-            r.user_code user_reserve,
-            r.status_reserve
-        FROM tbl_history s
-        JOIN tbl_user u ON s.user_code = u.user_code
-        JOIN tbl_book b ON b.isbn = s.isbn
-        JOIN tbl_reserve_status r ON b.isbn = r.isbn;
-    </entry>-->
+
     <entry key="selectHistory">
         SELECT
+            b.isbn,
             b.subject,
-            s.user_code user_rent,
-            s.status_rent,
-            s.date_rent,
-            s.date_return,
-            s.date_end,
-            r.user_code user_reserve,
-            r.status_reserve
-        FROM tbl_history s
-        LEFT JOIN tbl_book b ON b.isbn = s.isbn
-        LEFT JOIN tbl_reserve_status r ON b.isbn = r.isbn;
+            h.user_code user_rent,
+            h.status_rent,
+            h.status_reserve,
+            h.date_rent,
+            h.date_return,
+            h.date_end
+        FROM tbl_history h
+        JOIN tbl_book b ON b.isbn = h.isbn
+        LEFT JOIN tbl_status s ON s.user_code = h.user_code
+        LEFT JOIN tbl_reserve_status r ON r.user_code = h.user_code;
     </entry>
 
     <entry key="selectUserName">
