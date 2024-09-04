@@ -99,9 +99,13 @@ public class CommonMemberFTDAO {
                     result = pstmt.executeUpdate();
 
 
-                    pstmt = con.prepareStatement(prop.getProperty("rentalable_reserve"));
+                   /* pstmt = con.prepareStatement(prop.getProperty("rentalable_reserve"));
                     pstmt.setString(1, "예약가능");
-                    pstmt.setInt(2, num);
+                    pstmt.setInt(2, num);*/
+                    pstmt = con.prepareStatement(prop.getProperty("setReserve"));
+                    pstmt.setString(1,"예약가능");
+                    pstmt.setInt(2, userCode);
+                    pstmt.setInt(3, num);
 
                     // 변경된 이력 저장
                     StatusDTO updateStatus = new StatusDTO(subject, "대여 중", "예약가능", startTime.toString(), null, num, userCode, startTime.plusDays(30).toString());
@@ -182,10 +186,17 @@ public class CommonMemberFTDAO {
                     // pstmt.close();
 
                     // 예약 테이블 저장
-                    pstmt = con.prepareStatement(prop.getProperty("rentalable_reserve"));
+                    /*pstmt = con.prepareStatement(prop.getProperty("rentalable_reserve"));
 
                     pstmt.setString(1, "예약불가");
-                    pstmt.setInt(2, num);
+                    pstmt.setInt(2, num);*/
+
+                    pstmt = con.prepareStatement(prop.getProperty("setReserve"));
+                    pstmt.setString(1,"예약불가");
+                    pstmt.setInt(2, userCode);
+                    pstmt.setInt(3, num);
+
+                    result = pstmt.executeUpdate();
 
                     // 변경된 이력 저장
                     StatusDTO updateStatus = new StatusDTO(subject, "대여가능", "예약불가", currentStatusDTO.getDate_rent(), startTime.toString(), num, userCode, currentStatusDTO.getDate_end());
@@ -429,9 +440,9 @@ public class CommonMemberFTDAO {
 
                     // 대여 중  예약가능
                     pstmt = con.prepareStatement(prop.getProperty("setReserve"));
-                    pstmt.setInt(3, reserveNum);
                     pstmt.setString(1,"예약 중");
                     pstmt.setInt(2, userCode);
+                    pstmt.setInt(3, reserveNum);
                     result = pstmt.executeUpdate();
 
 
