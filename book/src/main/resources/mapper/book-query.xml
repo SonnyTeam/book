@@ -7,11 +7,11 @@
         SET STATUS_RENT = ?, DATE_RENT = ?, DATE_RETURN = ?, DATE_END = ?, USER_CODE = ?
         WHERE ISBN = ?
     </entry>
-    <!--<entry key="rentalable_reserve">
+    <entry key="rentalable_reserve">
         UPDATE TBL_RESERVE_STATUS
         SET STATUS_RESERVE = ?
         WHERE ISBN = ?
-    </entry>-->
+    </entry>
 
     <entry key="returnBook">
         UPDATE TBL_STATUS
@@ -111,7 +111,7 @@
         A.GENRE = ?
     </entry>
 
-    <entry key="signUp">
+    <entry key="signUpController">
         INSERT into tbl_user(
         user_code,
         name,
