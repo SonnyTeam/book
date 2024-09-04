@@ -2,6 +2,7 @@ package com.ohgiraffers.login;
 
 import com.ohgiraffers.user.dto.UserDTO;
 
+import java.sql.PreparedStatement;
 import java.util.Scanner;
 
 import static com.ohgiraffers.JDBCTemplate.JDBCTemplate.getConnection;
@@ -55,8 +56,9 @@ public class CommonMemberFT {
     public void updateUser(int userCode) {
         Scanner scr = new Scanner(System.in);
         System.out.println("===나의 정보 수정===");
-        System.out.println("수정 내용 입력\n수정불필요 항목은 ENTER로 스킵!!!");
         UserDTO userDTO = dao.showUserInfo(getConnection(), userCode);
+        System.out.println("현재 나의 정보 : " + userDTO);
+        System.out.println("수정 내용 입력\n수정불필요 항목은 ENTER로 스킵!!!");
 
         System.out.println("이름을 입력 : ");
         userDTO.setName(scr.nextLine());
@@ -70,6 +72,15 @@ public class CommonMemberFT {
         int result =dao.updateUser(getConnection(), userDTO);
         if(result==1){
             System.out.println("나의 정보 수정 완료");
+            userDTO =dao.showUserInfo(getConnection(), userCode);
+            System.out.println("수정된 나의 정보 : " + userDTO);
+        }else {
+            System.out.println("수정 실패!!");
         }
     }
+
+    public void showRentedList(int userCode) {dao.showRentedList(getConnection(), userCode);}
+
+    public void showOverdueList(int userCode) {dao.showOverdueList(getConnection(), userCode);}
+
 }

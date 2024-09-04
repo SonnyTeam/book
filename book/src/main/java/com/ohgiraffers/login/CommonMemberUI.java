@@ -1,6 +1,7 @@
 package com.ohgiraffers.login;
 
 import com.ohgiraffers.Application;
+import com.ohgiraffers.manager.controller.BookStatController;
 
 import java.util.Scanner;
 
@@ -35,6 +36,7 @@ public class CommonMemberUI {
                     break;
                 case 5:
                     mypage(userCode);
+                    break;
                 case 9:
                     System.out.println("로그아웃 성공 ! 👋");
                     break loop;
@@ -60,10 +62,10 @@ public class CommonMemberUI {
                     ft.updateUser(userCode);
                     break myloop;
                 case 2:
-
+                    ft.showRentedList(userCode);
                     break myloop;
                 case 3:
-
+                    ft.showOverdueList(userCode);
                     break myloop;
                 case 9:
                     break myloop;
@@ -88,7 +90,10 @@ public class CommonMemberUI {
                 case 1: ft.titleSearch(); break;
                 case 2: ft.authorSearch(); break;
                 case 3: ft.yearSearch(); break;
-                case 4: ft.genreSearch(); break;
+                case 4:
+                    BookStatController bookStatController = new BookStatController();
+                    bookStatController.showAllGenre();
+                    ft.genreSearch(); break;
                 case 5: ft.allSearch(); break;
                 //case 6: userUI(userCode); break;
                 case 6:

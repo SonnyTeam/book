@@ -183,4 +183,21 @@
         FROM tbl_user
         WHERE user_code = ?
     </entry>
+
+    <entry key="showRentedList">
+        SELECT A.subject, B.date_rent, B.date_end, B.overdue_status
+        FROM tbl_status B
+        JOIN tbl_book A
+        ON A.ISBN = B.ISBN
+        WHERE user_code = ?
+        AND status_rent = '대여 중'
+    </entry>
+
+    <entry key="showOverdueList">
+        SELECT A.subject, B.fee, B.date_overdue
+        FROM tbl_overdue B
+        JOIN tbl_book A
+        ON A.ISBN = B.ISBN
+        WHERE user_code = ?
+    </entry>
 </properties>

@@ -139,19 +139,12 @@ public class BookManageDAO {
         return 1;
     }
 
-    public int insertOrDeleteBookStatus(Connection con, String subject, int num) {
+    public int insertOrDeleteBookStatus(Connection con, int ISBN, int num) {
         PreparedStatement pstmt = null;
         ResultSet rset = null;
-        int ISBN = 0;
         int result = 0;
 
         try {
-            pstmt = con.prepareStatement(prop.getProperty("findISBN"));
-            pstmt.setString(1, subject);
-            rset = pstmt.executeQuery();
-            while (rset.next()) {
-                ISBN = rset.getInt("ISBN");
-            }
             switch (num) {
                 case 1:
                     pstmt = con.prepareStatement(prop.getProperty("insertBookStatus"));
@@ -162,6 +155,7 @@ public class BookManageDAO {
                     pstmt = con.prepareStatement(prop.getProperty("deleteBookStatus"));
                     pstmt.setInt(1, ISBN);
                     result = pstmt.executeUpdate();
+                    break;
             }
 
 
@@ -171,4 +165,51 @@ public class BookManageDAO {
         return result;
     }
 
+    public int insertOrdeleteBookReserveStatus(Connection con, int ISBN, int num) {
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+        int result = 0;
+
+        try {
+            switch (num) {
+                case 1:
+                    pstmt = con.prepareStatement(prop.getProperty("insertBookReserveStatus"));
+                    pstmt.setInt(1, ISBN);
+                    result = pstmt.executeUpdate();
+                    break;
+                case 2:
+                    pstmt = con.prepareStatement(prop.getProperty("deleteBookReserveStatus"));
+                    pstmt.setInt(1, ISBN);
+                    result = pstmt.executeUpdate();
+                    break;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    public int findISBN(Connection con, String subject) {
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+        int ISBN = 0;
+
+        try {
+            pstmt = con.prepareStatement(prop.getProperty("findISBN"));
+            pstmt.setString(1, subject);
+            rset = pstmt.executeQuery();
+            while (rset.next()) {
+                ISBN = rset.getInt("ISBN");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            close(con);
+            close(pstmt);
+            close(rset);
+        }
+        return ISBN;
+    }
 }
