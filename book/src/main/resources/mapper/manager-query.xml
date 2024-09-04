@@ -22,13 +22,11 @@
 
     <entry key="findUserCode">
         SELECT
-            u.user_code,
-            s.isbn
+            user_code
           FROM tbl_user u
-          JOIN tbl_status s
-            ON u.user_code = s.user_code
-         WHERE u.name = ?
+         WHERE name = ?
     </entry>
+
 
     <entry key="findThings">
         SELECT
@@ -120,15 +118,8 @@
             (?, ?, ?, ?, ?, ?, ?)
     </entry>
 
+
     <!--<entry key="selectHistory">
-        SELECT
-            H.*,
-            U.name
-          FROM tbl_history H
-          JOIN tbl_user U ON H.user_code = U.user_code;
-    </entry>
--->
-    <entry key="selectHistory">
         SELECT
             b.subject,
             u.name user_rent,
@@ -142,6 +133,28 @@
         JOIN tbl_user u ON s.user_code = u.user_code
         JOIN tbl_book b ON b.isbn = s.isbn
         JOIN tbl_reserve_status r ON b.isbn = r.isbn;
+    </entry>-->
+    <entry key="selectHistory">
+        SELECT
+            b.subject,
+            s.user_code user_rent,
+            s.status_rent,
+            s.date_rent,
+            s.date_return,
+            s.date_end,
+            r.user_code user_reserve,
+            r.status_reserve
+        FROM tbl_history s
+        LEFT JOIN tbl_book b ON b.isbn = s.isbn
+        LEFT JOIN tbl_reserve_status r ON b.isbn = r.isbn;
+    </entry>
+
+    <entry key="selectUserName">
+        SELECT
+            CASE
+                WHEN ? IS NULL THEN NULL
+                ELSE (SELECT name FROM tbl_user WHERE user_code = ?)
+        END AS name;
     </entry>
 
     <entry key="selectReserveHistory">

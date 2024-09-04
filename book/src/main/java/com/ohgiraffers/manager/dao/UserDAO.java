@@ -111,7 +111,7 @@ public class UserDAO {
 
         try {
             // 진짜 삭제 시 주석처리
-            con.setAutoCommit(false);
+            //con.setAutoCommit(false);
 
             pstmt = con.prepareStatement(prop.getProperty("deleteUser"));
             pstmt.setString(1, name);

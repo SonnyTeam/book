@@ -82,12 +82,14 @@ public class UserController {
     public void userList(){
 
         List<UserDTO> users = userDAO.selectAllUser(getConnection());
-        for(UserDTO user : users){
-            System.out.print("이름 : " + user.getName() + " | 연락처 : " + user.getPhone() + " | 대여 중인 도서 목록 : ");
-            if(user.getBorrowedList().isEmpty()){
+        // for(UserDTO user : users){
+        for (int i = 1; i < users.size(); i++) {
+
+            System.out.print("이름 : " + users.get(i).getName() + " | 연락처 : " + users.get(i).getPhone() + " | 대여 중인 도서 목록 : ");
+            if(users.get(i).getBorrowedList().isEmpty()){
                 System.out.println("없음");
             }else {
-                for(String subject : user.getBorrowedList()){
+                for(String subject : users.get(i).getBorrowedList()){
                     System.out.print(subject + " ");
 
                 }
