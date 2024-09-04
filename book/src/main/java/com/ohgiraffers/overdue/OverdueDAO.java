@@ -40,14 +40,16 @@ public class OverdueDAO {
             prop.loadFromXML(new FileInputStream("src/main/resources/mapper/book-query.xml"));
             pstmt = con.prepareStatement(prop.getProperty("overduelist"));
             rset = pstmt.executeQuery();
-
-            while(rset.next()){
-                System.out.print(rset.getString(1)+"(을/를) ");
-                System.out.print(rset.getString(2)+"님이 반납일로부터 ");
-                System.out.print(rset.getInt(3)+"일 지났습니다. 연체료는");
-                System.out.println(rset.getInt(4)+"원 입니다.");
+            if(rset.next()) {
+                while (rset.next()) {
+                    System.out.print(rset.getString(1) + "(을/를) ");
+                    System.out.print(rset.getString(2) + "님이 반납일로부터 ");
+                    System.out.print(rset.getInt(3) + "일 지났습니다. 연체료는");
+                    System.out.println(rset.getInt(4) + "원 입니다.");
+                }
+            }else{
+                System.out.println("연체중인 회원이 없습니다");
             }
-
         } catch (IOException | SQLException e) {
             throw new RuntimeException(e);
         }finally {

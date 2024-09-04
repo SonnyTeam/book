@@ -47,6 +47,7 @@ public class CommonMemberFTDAO {
         System.out.println("대여하실 책 제목 : ");
         String subject = sc.nextLine();
 
+
         // 임시 리스트 생성
         List<StatusDTO> tempStatusList = new ArrayList<>();
 
@@ -74,12 +75,13 @@ public class CommonMemberFTDAO {
             // System.out.println(prop);
             pstmt = con.prepareStatement(prop.getProperty("checkbookstatus"));
             pstmt.setInt(1, num);
-
             rset = pstmt.executeQuery();
 
+
+            if (!rset.isBeforeFirst()) {
+                throw new Exception("해당 제목의 책이 존재하지 않습니다.");
+            }
             // System.out.println(rset);
-
-
             while(rset.next()){
                 String currentStatus = rset.getString("status_rent");
                 if("대여 중".equals(currentStatus)){
@@ -124,10 +126,9 @@ public class CommonMemberFTDAO {
                     }
                 }
             }
-        }  catch (SQLException e) {
-            throw new RuntimeException(e);
-        }  catch (IOException e) {
-            throw new RuntimeException(e);
+        }
+         catch (Exception e) {
+           System.out.println("오류!! "+ e.getMessage()+"이전으로 돌아갑니다");
         } finally {
             close(con);
             close(pstmt);
@@ -143,7 +144,6 @@ public class CommonMemberFTDAO {
 
         System.out.println("반납하실 책 제목 : ");
         String subject = sc.nextLine();
-
         startTime = LocalDate.now();
 
         // 임시 리스트 생성
@@ -230,13 +230,17 @@ public class CommonMemberFTDAO {
 
     public void titleSearch(Connection con) {
 
-        System.out.println("책 제목 : ");
-        String title = sc.nextLine();
         try {
+            System.out.println("책 제목 : ");
+            String title = sc.nextLine();
+
 
             pstmt = con.prepareStatement(prop.getProperty("titleSearch"));
             pstmt.setString(1, title);
             rset = pstmt.executeQuery();
+            if (!rset.isBeforeFirst()) {
+                throw new Exception("해당 제목의 책이 존재하지 않습니다.");
+            }
             while (rset.next()) {
                 System.out.println(rset.getString("SUBJECT") +
                         rset.getString("AUTHOR") +
@@ -249,8 +253,8 @@ public class CommonMemberFTDAO {
                 );
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            System.out.println("오류!! "+ e.getMessage()+"이전으로 돌아갑니다");
         } finally {
             close(con);
             close(pstmt);
@@ -259,12 +263,20 @@ public class CommonMemberFTDAO {
     }
 
     public void authorSearch(Connection con) {
-        System.out.println("저자 이름 : ");
-        String author = sc.nextLine();
+
         try {
+            System.out.println("저자 이름 : ");
+            String author = sc.nextLine();
+
             pstmt = con.prepareStatement(prop.getProperty("authorsearch"));
             pstmt.setString(1, author);
             rset = pstmt.executeQuery();
+           if (author.matches("\\d+")) {
+                throw new IllegalArgumentException("이름에 숫자입력은 안됩니다.");
+           }
+            if (!rset.isBeforeFirst()) {
+              throw new Exception("해당 저자의 책이 존재하지 않습니다.");
+         }
             while (rset.next()) {
                 System.out.println(rset.getString("SUBJECT") +
                         rset.getString("AUTHOR") +
@@ -277,8 +289,8 @@ public class CommonMemberFTDAO {
                 );
             }
 
-        }  catch (SQLException e) {
-            throw new RuntimeException(e);
+        }  catch (Exception e) {
+            System.out.println("오류!! "+ e.getMessage()+"이전으로 돌아갑니다");
         } finally {
             close(con);
             close(pstmt);
@@ -287,12 +299,21 @@ public class CommonMemberFTDAO {
     }
 
     public void genreSearch(Connection con) {
-        System.out.println("장르 검색 : ");
-        String genre = sc.nextLine();
+      
         try {
+            System.out.println("장르 검색 : ");
+            String genre = sc.nextLine();
+
             pstmt = con.prepareStatement(prop.getProperty("genresearch"));
             pstmt.setString(1, genre);
             rset = pstmt.executeQuery();
+            if (!rset.isBeforeFirst()) {
+                throw new Exception("해당 장르의 책이 존재하지 않습니다.");
+            }
+            if (genre.matches("\\d+")) {
+                throw new IllegalArgumentException("이름에 숫자입력은 안됩니다.");
+            }
+
             while (rset.next()) {
                 System.out.println(rset.getString("SUBJECT") +
                         rset.getString("AUTHOR") +
@@ -305,8 +326,8 @@ public class CommonMemberFTDAO {
                 );
             }
 
-        }  catch (SQLException e) {
-            throw new RuntimeException(e);
+        }  catch (Exception e) {
+            System.out.println("오류!! "+ e.getMessage()+"이전으로 돌아갑니다");
         } finally {
             close(con);
             close(pstmt);
@@ -315,12 +336,22 @@ public class CommonMemberFTDAO {
     }
 
     public void yearSearch(Connection con) {
-        System.out.println("출판 년도 : ");
-        int year = sc.nextInt();
+
         try {
+            System.out.println("출판 년도 : ");
+            int year = sc.nextInt();
+            if(year > 2024){
+                throw new Exception("출판년도가 미래일 수 없습니다");
+            }
+
             pstmt = con.prepareStatement(prop.getProperty("yearsearch"));
             pstmt.setInt(1, year);
             rset = pstmt.executeQuery();
+
+            if (!rset.isBeforeFirst()) {
+                throw new Exception("해당 년도의 책이 존재하지 않습니다.");
+            }
+
             while (rset.next()) {
                 System.out.println(rset.getString("SUBJECT") +
                         rset.getString("AUTHOR") +
@@ -333,8 +364,8 @@ public class CommonMemberFTDAO {
                 );
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            System.out.println("오류!! "+ e.getMessage()+"이전으로 돌아갑니다");
         } finally {
             close(con);
             close(pstmt);
@@ -378,7 +409,6 @@ public class CommonMemberFTDAO {
         //대여중만 예약하기
         System.out.println("예약하실 책 제목을 입력해주세요.");
         String subject = sc.nextLine();
-
         int result = 0;
 
         // 임시 리스트 생성
@@ -396,6 +426,9 @@ public class CommonMemberFTDAO {
             pstmt = con.prepareStatement(prop.getProperty("findISBN"));
             pstmt.setString(1, subject);
             rset = pstmt.executeQuery();
+            if (!rset.isBeforeFirst()) {
+                throw new Exception("해당 제목의 책이 존재하지 않습니다.");
+            }
             int reserveNum = 0;
             while(rset.next()){
                 reserveNum = rset.getInt("ISBN");
@@ -476,14 +509,13 @@ public class CommonMemberFTDAO {
                 result = 0;
                 return result;
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            System.out.println("오류!! "+ e.getMessage()+"이전으로 돌아갑니다");
         }finally {
             close(con);
             close(pstmt);
             close(rset);
         }
-        System.out.println(result);
         return result;
     }
 
