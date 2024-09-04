@@ -201,4 +201,13 @@
         ON A.ISBN = B.ISBN
         WHERE user_code = ?
     </entry>
+
+    <entry key="showReservedList">
+        SELECT A.subject
+        FROM tbl_reserve_status B
+        JOIN tbl_book A
+        ON A.ISBN = B.ISBN
+        WHERE user_code = ?
+    </entry>
+
 </properties>

@@ -83,4 +83,5 @@ public class CommonMemberFT {
 
     public void showOverdueList(int userCode) {dao.showOverdueList(getConnection(), userCode);}
 
+    public void showReservedList(int userCode) {dao.showReservedList(getConnection(), userCode);}
 }
