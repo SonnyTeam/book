@@ -7,22 +7,22 @@
         SET STATUS_RENT = ?, DATE_RENT = ?, DATE_RETURN = ?, DATE_END = ?, USER_CODE = ?
         WHERE ISBN = ?
     </entry>
-    <entry key="rentalable_reserve">
+    <!--<entry key="rentalable_reserve">
         UPDATE TBL_RESERVE_STATUS
         SET STATUS_RESERVE = ?
         WHERE ISBN = ?
-    </entry>
+    </entry>-->
 
     <entry key="returnBook">
         UPDATE TBL_STATUS
         SET STATUS_RENT = ?, DATE_RETURN = ?
         WHERE ISBN = ?
     </entry>
-    <entry key="returnBook_reserve">
+<!--    <entry key="returnBook_reserve">
         UPDATE TBL_RESERVE_STATUS
         SET STATUS_RESERVE = ?
         WHERE ISBN = ?
-    </entry>
+    </entry>-->
 
     <entry key="titleSearch">
 
@@ -93,7 +93,8 @@
     </entry>
     <entry key="setReserve">
         UPDATE TBL_RESERVE_STATUS
-        SET STATUS_RESERVE = ?, USER_CODE = ?
+        SET STATUS_RESERVE = ?,
+            USER_CODE = ?
         WHERE ISBN = ?
 
     </entry>
