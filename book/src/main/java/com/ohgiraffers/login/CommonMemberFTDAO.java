@@ -233,8 +233,8 @@ public class CommonMemberFTDAO {
                         rset.getInt("PUBLIC_YEAR") +
                         rset.getString("GENRE") +
                         rset.getInt("ISBN") +
-                        rset.getString("STATUS_RENT") +
-                        rset.getString("STATUS_RESERVE")
+                        rset.getString("STATUS_RENT") /*+
+                        rset.getString("STATUS_RESERVE")*/
                 );
             }
 
@@ -261,8 +261,8 @@ public class CommonMemberFTDAO {
                         rset.getInt("PUBLIC_YEAR") +
                         rset.getString("GENRE") +
                         rset.getInt("ISBN") +
-                        rset.getString("STATUS_RENT") +
-                        rset.getString("STATUS_RESERVE")
+                        rset.getString("STATUS_RENT") /*+
+                        rset.getString("STATUS_RESERVE")*/
                 );
             }
 
@@ -289,8 +289,8 @@ public class CommonMemberFTDAO {
                         rset.getInt("PUBLIC_YEAR") +
                         rset.getString("GENRE") +
                         rset.getInt("ISBN") +
-                        rset.getString("STATUS_RENT") +
-                        rset.getString("STATUS_RESERVE")
+                        rset.getString("STATUS_RENT") /*+
+                        rset.getString("STATUS_RESERVE")*/
                 );
             }
 
@@ -317,8 +317,8 @@ public class CommonMemberFTDAO {
                         rset.getInt("PUBLIC_YEAR") +
                         rset.getString("GENRE") +
                         rset.getInt("ISBN") +
-                        rset.getString("STATUS_RENT") +
-                        rset.getString("STATUS_RESERVE")
+                        rset.getString("STATUS_RENT") /*+
+                        rset.getString("STATUS_RESERVE")*/
                 );
             }
 
@@ -333,11 +333,14 @@ public class CommonMemberFTDAO {
 
     public void allSearch(Connection con){
 
+
         System.out.println("책 전체 리스트");
         try {
+            //prop.loadFromXML(new FileInputStream(url));
             pstmt = con.prepareStatement(prop.getProperty("allSearch"));
 
             rset = pstmt.executeQuery();
+
             while(rset.next()){
                 System.out.println(rset.getString("SUBJECT")+
                         rset.getString("AUTHOR")+
@@ -345,10 +348,11 @@ public class CommonMemberFTDAO {
                         rset.getInt("PUBLIC_YEAR")+
                         rset.getString("GENRE")+
                         rset.getInt("ISBN")+
-                        rset.getString("STATUS_RENT")+
-                        rset.getString("STATUS_RESERVE"));
+                        rset.getString("STATUS_RENT"));
+                        //rset.getString("STATUS_RESERVE"));
             }
         }  catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         } finally {
             close(con);
@@ -411,6 +415,7 @@ public class CommonMemberFTDAO {
                 if(retnUserCode == userCode){
                     System.out.println("본인이 대여중인 책입니다. 다시 시도해주세요.");
                     result = 0;
+                    return result;
                 }
 
                 if ("예약 중".equals(currentStatus)) {
@@ -418,6 +423,7 @@ public class CommonMemberFTDAO {
 
                     System.out.println("예약 중인 책입니다. 이전으로 돌아갑니다");
                     result = 0;
+                    return result;
                 }else{
                     // System.out.println("대여 중 예약가능");
 
@@ -457,6 +463,7 @@ public class CommonMemberFTDAO {
                 // 대여가능
                 System.out.println("예약불가인 책입니다. 이전으로 돌아갑니다");
                 result = 0;
+                return result;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -465,6 +472,7 @@ public class CommonMemberFTDAO {
             close(pstmt);
             close(rset);
         }
+        System.out.println(result);
         return result;
     }
 
