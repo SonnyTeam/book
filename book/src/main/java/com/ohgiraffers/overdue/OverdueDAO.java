@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,11 +42,10 @@ public class OverdueDAO {
             rset = pstmt.executeQuery();
 
             while(rset.next()){
-                System.out.print(rset.getInt(1)+" ");
-                System.out.print(rset.getInt(2)+" ");
-                System.out.print(rset.getInt(3)+" ");
-                System.out.print(rset.getString(4)+" ");
-                System.out.println(rset.getString(5)+" ");
+                System.out.print(rset.getString(1)+"(을/를) ");
+                System.out.print(rset.getString(2)+"님이 반납일로부터 ");
+                System.out.print(rset.getInt(3)+"일 지났습니다. 연체료는");
+                System.out.println(rset.getInt(4)+"원 입니다.");
             }
 
         } catch (IOException | SQLException e) {
@@ -89,30 +87,33 @@ public class OverdueDAO {
             pstmt.executeUpdate();
 
             prop.loadFromXML(new FileInputStream("src/main/resources/mapper/book-query.xml"));
-            pstmt = con.prepareStatement(prop.getProperty("autoinsert"));
 
-            for(Map.Entry<Integer,String> entry : isbnDate.entrySet()){
+            for(Map.Entry<Integer,String> entry : isbnDate.entrySet()) {
                 int isbn = entry.getKey();
                 String endday = entry.getValue();
                 //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); //이 형식으로 초기화하고
                 LocalDate dueday = LocalDate.parse(endday); // ,formatter
                 LocalDate currentDate = LocalDate.now();
 
-                long dateover = ChronoUnit.DAYS.between(currentDate,dueday); //일수빼기
+                long dateover = ChronoUnit.DAYS.between(dueday,currentDate); //일수빼기
+                if (dateover > 0) {
+                    int fee = calculateFee(dateover);
+                    int userCode = getUserCode(isbn, getConnection());
+                    int mul = fee / 100;
 
-                int fee = calculateFee(dateover);
-                int userCode = getUserCode(isbn,getConnection());
+                    pstmt = con.prepareStatement(prop.getProperty("overduestatus"));
+                    pstmt.setInt(1, isbn);
+                    pstmt.executeUpdate();
 
-                int mul = fee/100;
-                pstmt.setInt(1,isbn);
 
-                pstmt.setInt(2, userCode);
+                    pstmt = con.prepareStatement(prop.getProperty("autoinsert"));
+                    pstmt.setInt(1, isbn);
+                    pstmt.setInt(2, userCode);
+                    pstmt.setInt(3, fee);
+                    pstmt.setInt(4, mul);
+                    pstmt.executeUpdate();
 
-                pstmt.setInt(3, fee);
-
-                pstmt.setInt(4, mul);
-
-                pstmt.executeUpdate();
+                }
             }
 
         } catch (IOException | SQLException e) {

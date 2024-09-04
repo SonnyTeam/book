@@ -88,4 +88,25 @@ public class BookStatDAO {
         }
 
     }
+
+    public void showAllGenre(Connection con) {
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+        try {
+            pstmt = con.prepareStatement(prop.getProperty("showAllGenre"));
+            rset = pstmt.executeQuery();
+            System.out.println("장르 목록 : ");
+            while (rset.next()) {
+                System.out.print(rset.getString("GENRE") + " | ");
+            }
+            System.out.println();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            close(con);
+            close(pstmt);
+            close(rset);
+        }
+    }
 }

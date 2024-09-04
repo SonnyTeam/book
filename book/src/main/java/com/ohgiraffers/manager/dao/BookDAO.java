@@ -206,6 +206,7 @@ public class BookDAO {
             if(currentStatus != null){
                 tempStatusList.add(currentStatus);
             }
+            //~첫번째 대여한사람의 정보를 임시로 저장
 
 
             pstmt = con.prepareStatement(prop.getProperty("findUserCode"));
@@ -213,18 +214,19 @@ public class BookDAO {
             pstmt.setString(1, name);
             rset = pstmt.executeQuery();
             String code = ""; // 입력한 사람의 사용자 코드
+            //~입력한 사람의 유저코드와 빌린 책번호를 가져옴
 
 
             while(rset.next()){
-                code = rset.getString(1);
+                code = rset.getString(1); //~책번호는 왜??
             }
 
             pstmt = con.prepareStatement(prop.getProperty("findUserCode"));
 
             pstmt.setString(1, subject);
-            rset = pstmt.executeQuery();
-            String compareCode = "";
-
+            rset = pstmt.executeQuery();  //~ ? 위랑 똑같은 findUserCode면
+            String compareCode = "";      // name = ? 인데 책 제목이 들어가나요?
+                                        // 글고 compareCode에 넣어주는것도 없슴다
             if(compareCode == code){
                 System.out.println("본인이 대여중인 책입니다. 다시 시도해주세요.");
                 return 0;
@@ -236,7 +238,6 @@ public class BookDAO {
                 System.out.println("없는 회원입니다.");
                 return result;
             }
-
 
             pstmt.close();
             pstmt = con.prepareStatement(prop.getProperty("updateReserveStatus"));
@@ -252,7 +253,7 @@ public class BookDAO {
 
 
             pstmt.setString(1, statusReserve);
-            pstmt.setString(2, code);
+            pstmt.setString(2, code); //유저코드를 문자열로?
             pstmt.setInt(3, isbn);
 
             int codeI = Integer.parseInt(code);
@@ -294,6 +295,14 @@ public class BookDAO {
         ResultSet rset = null;
 
         try {
+           /* pstmt = con.prepareStatement(prop.getProperty("selectReserveHistory"));
+
+            rset = pstmt.executeQuery();
+            String name = "";
+            while(rset.next()){
+                name = rset.getString(1);
+            }
+*/
             pstmt = con.prepareStatement(prop.getProperty("selectHistory"));
             rset = pstmt.executeQuery();
 
@@ -305,7 +314,7 @@ public class BookDAO {
                         + " | 대여일 : " + rset.getString(4)
                         + " | 반납일 : " + rset.getString(5)
                         + " | 반납기한 : " + rset.getString(6)
-                        + " | 사용자(예약) : " + rset.getString(7)
+                        + " | 사용자(예약) : " + rset.getString(7) //name
                         + " | 도서상태(예약) : " + rset.getString(8));
             }
             System.out.println();
@@ -362,7 +371,6 @@ public class BookDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
 
     }
 

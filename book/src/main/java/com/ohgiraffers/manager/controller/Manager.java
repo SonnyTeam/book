@@ -62,7 +62,9 @@ public class Manager {
             switch(choice){
                 case 1: bookStatController.countAllBook();
                 break sloop;
-                case 2: bookStatController.countByGenre();
+                case 2:
+                    bookStatController.showAllGenre();
+                    bookStatController.countByGenre();
                 break sloop;
                 case 3: bookStatController.countRented();
                 break sloop;
@@ -178,7 +180,8 @@ public class Manager {
     public void overDue(){
         OverdueController overdueController = new OverdueController();
         Scanner sc = new Scanner(System.in);
-        System.out.println("1. 연체중인 회원 리스트조회 2.연체회원 새로고침");
+        System.out.println("1. 연체중인 회원 리스트조회");
+        System.out.println("2.연체회원 새로고침");
         int num = sc.nextInt();
         sc.nextLine();
         switch (num){

@@ -2,6 +2,7 @@ package com.ohgiraffers.login;
 
 import com.ohgiraffers.manager.dao.BookDAO;
 import com.ohgiraffers.manager.dto.StatusDTO;
+import com.ohgiraffers.user.dto.UserDTO;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -356,7 +357,7 @@ public class CommonMemberFTDAO {
         }
     }
 
-    public String reserves(int a, Connection con){
+    public int reserves(int a, Connection con){
         int userCode = a;
 
         //대여중만 예약하기
@@ -409,14 +410,14 @@ public class CommonMemberFTDAO {
 
                 if(retnUserCode == userCode){
                     System.out.println("본인이 대여중인 책입니다. 다시 시도해주세요.");
-                    return ui.userUI(userCode);
+                    result = 0;
                 }
 
                 if ("예약 중".equals(currentStatus)) {
                     // System.out.println("예약 중 ");
 
                     System.out.println("예약 중인 책입니다. 이전으로 돌아갑니다");
-                    return ui.userUI(userCode);
+                    result = 0;
                 }else{
                     // System.out.println("대여 중 예약가능");
 
@@ -425,10 +426,9 @@ public class CommonMemberFTDAO {
                     pstmt.setInt(3, reserveNum);
                     pstmt.setString(1,"예약 중");
                     pstmt.setInt(2, userCode);
-                    pstmt.executeUpdate();
+                    result = pstmt.executeUpdate();
 
-                    pstmt = con.prepareStatement(prop.getProperty("checkbookstatus"));
-                    pstmt.setInt(1, reserveNum);
+
 
                     // 변경된 이력 저장
                     StatusDTO updateStatus = new StatusDTO(subject, currentStatusDTO.getStatus_rent(), "예약 중", currentStatusDTO.getDate_rent(), currentStatusDTO.getDate_return(), reserveNum, userCode, currentStatusDTO.getDate_end());
@@ -438,19 +438,25 @@ public class CommonMemberFTDAO {
 
                     bookDAO.storeHistory(con);
 
+                    /*
+
+                    pstmt = con.prepareStatement(prop.getProperty("checkbookstatus"));
+                    pstmt.setInt(1, reserveNum);
+
                     rset = pstmt.executeQuery();
+
                     String endDay = "";
                     while(rset.next()) {
                         endDay = rset.getString("DATE_END");
-                    }
-                    System.out.println("예약 완료했습니다 "+ endDay+" 이후로 수령 가능합니다.");
+                    }*/
+                    // System.out.println("예약 완료했습니다 "+ endDay+" 이후로 수령 가능합니다.");
 
 
                 }
             }else {
                 // 대여가능
                 System.out.println("예약불가인 책입니다. 이전으로 돌아갑니다");
-                return ui.userUI(userCode);
+                result = 0;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -459,7 +465,68 @@ public class CommonMemberFTDAO {
             close(pstmt);
             close(rset);
         }
-        return null;
+        return result;
     }
 
+    public UserDTO showUserInfo(Connection con, int userCode) {
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+        UserDTO userDTO = new UserDTO();
+        try {
+            pstmt = con.prepareStatement(prop.getProperty("showUserInfo"));
+            pstmt.setInt(1, userCode);
+            rset = pstmt.executeQuery();
+            while(rset.next()) {
+                userDTO.setName(rset.getString("NAME"));
+                userDTO.setPhone(rset.getString("PHONE"));
+                userDTO.setUser_id(rset.getString("USER_ID"));
+                userDTO.setUser_pwd(rset.getString("USER_PWD"));
+                userDTO.setUser_code(userCode);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            close(con);
+            close(pstmt);
+            close(rset);
+        }
+        return userDTO;
+    }
+
+    public int updateUser(Connection con, UserDTO userDTO) {
+        PreparedStatement pstmt = null;
+        int result = 0;
+
+        String query = "UPDATE tbl_user SET ";
+
+        if (userDTO.getName() != null) {
+            query = query + "name = '" + userDTO.getName() + "', ";
+        }
+        if (userDTO.getPhone() != null) {
+            query = query + "phone = '" + userDTO.getPhone() + "', ";
+        }
+        if (userDTO.getUser_id() != null) {
+            query = query + "user_id = '" + userDTO.getUser_id() + "', ";
+        }
+        if (userDTO.getUser_pwd() != null) {
+            query = query + "user_pwd = '" + userDTO.getUser_pwd() + "', ";
+        }
+
+        query = query.substring(0,query.length()-2);
+        query = query + " WHERE user_code = " + userDTO.getUser_code();
+
+        System.out.println(query);
+
+        try {
+            pstmt = con.prepareStatement(query);
+            result = pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            close(con);
+            close(pstmt);
+        }
+    return result;
+    }
 }

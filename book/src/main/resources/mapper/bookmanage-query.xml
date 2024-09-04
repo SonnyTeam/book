@@ -18,5 +18,22 @@
         WHERE ISBN = ?
     </entry>
 
+    <entry key="findISBN">
+        SELECT ISBN
+        FROM TBL_BOOK
+        WHERE SUBJECT = ?
+    </entry>
+
+    <entry key="insertBookStatus">
+        INSERT INTO tbl_status(ISBN, user_code, status_rent, date_rent, date_return, date_end, overdue_status)
+        VALUES
+        (?, null, default, null, null, null, default)
+    </entry>
+
+    <entry key="deleteBookStatus">
+        DELETE FROM tbl_status
+        WHERE ISBN = ?
+    </entry>
+
 
 </properties>
