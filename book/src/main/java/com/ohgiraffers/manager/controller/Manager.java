@@ -9,6 +9,8 @@ public class Manager {
 
     public void manager(){
 
+        OverdueController overdue = new OverdueController();
+
         while(true){
             Scanner scr = new Scanner(System.in);
             System.out.println("==========================================");
@@ -17,7 +19,7 @@ public class Manager {
             System.out.println("2. 사용자 관리");
             System.out.println("3. 도서 상태 관리");
             System.out.println("4. 도서 통계");
-            System.out.println("5. 연체 관리");
+            System.out.println("5. 연체 회원 조회");
             System.out.println("9. 로그아웃");
             int choice = scr.nextInt();
             scr.nextLine();
@@ -36,7 +38,7 @@ public class Manager {
                     book_stat();
                     break;
                 case 5:
-                    overDue();
+                    overdue.overduelist();
                     break;
                 case 9:
                     System.out.println("로그아웃 성공 ! 👋");
@@ -176,19 +178,19 @@ public class Manager {
         }
     }
 
-    public void overDue(){
-        OverdueController overdueController = new OverdueController();
-        Scanner sc = new Scanner(System.in);
-        System.out.println("1. 연체중인 회원 리스트조회");
-        System.out.println("2. 연체회원 새로고침");
-        int num = sc.nextInt();
-        sc.nextLine();
-        switch (num){
-            case 1:
-                overdueController.overduelist(); break;
-            case 2:
-                overdueController.overdueAutoInsert(); break;
-        }
-
-    }
+//    public void overDue(){
+//        OverdueController overdueController = new OverdueController();
+//        Scanner sc = new Scanner(System.in);
+//        System.out.println("1. 연체중인 회원 리스트조회");
+//        System.out.println("2. 연체회원 새로고침");
+//        int num = sc.nextInt();
+//        sc.nextLine();
+//        switch (num){
+//            case 1:
+//                overdueController.overduelist(); break;
+//            case 2:
+//                overdueController.overdueAutoInsert(); break;
+//        }
+//
+//    }
 }
