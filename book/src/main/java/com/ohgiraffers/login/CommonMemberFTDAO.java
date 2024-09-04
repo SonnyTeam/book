@@ -2,6 +2,7 @@ package com.ohgiraffers.login;
 
 import com.ohgiraffers.manager.dao.BookDAO;
 import com.ohgiraffers.manager.dto.StatusDTO;
+import com.ohgiraffers.user.dto.UserDTO;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -221,12 +222,10 @@ public class CommonMemberFTDAO {
         System.out.println("책 제목 : ");
         String title = sc.nextLine();
         try {
-            System.out.println("!");
+
             pstmt = con.prepareStatement(prop.getProperty("titleSearch"));
             pstmt.setString(1, title);
-            System.out.println("!");
             rset = pstmt.executeQuery();
-            System.out.println("!");
             while (rset.next()) {
                 System.out.println(rset.getString("SUBJECT") +
                         rset.getString("AUTHOR") +
@@ -469,4 +468,65 @@ public class CommonMemberFTDAO {
         return result;
     }
 
+    public UserDTO showUserInfo(Connection con, int userCode) {
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+        UserDTO userDTO = new UserDTO();
+        try {
+            pstmt = con.prepareStatement(prop.getProperty("showUserInfo"));
+            pstmt.setInt(1, userCode);
+            rset = pstmt.executeQuery();
+            while(rset.next()) {
+                userDTO.setName(rset.getString("NAME"));
+                userDTO.setPhone(rset.getString("PHONE"));
+                userDTO.setUser_id(rset.getString("USER_ID"));
+                userDTO.setUser_pwd(rset.getString("USER_PWD"));
+                userDTO.setUser_code(userCode);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            close(con);
+            close(pstmt);
+            close(rset);
+        }
+        return userDTO;
+    }
+
+    public int updateUser(Connection con, UserDTO userDTO) {
+        PreparedStatement pstmt = null;
+        int result = 0;
+
+        String query = "UPDATE tbl_user SET ";
+
+        if (userDTO.getName() != null) {
+            query = query + "name = '" + userDTO.getName() + "', ";
+        }
+        if (userDTO.getPhone() != null) {
+            query = query + "phone = '" + userDTO.getPhone() + "', ";
+        }
+        if (userDTO.getUser_id() != null) {
+            query = query + "user_id = '" + userDTO.getUser_id() + "', ";
+        }
+        if (userDTO.getUser_pwd() != null) {
+            query = query + "user_pwd = '" + userDTO.getUser_pwd() + "', ";
+        }
+
+        query = query.substring(0,query.length()-2);
+        query = query + " WHERE user_code = " + userDTO.getUser_code();
+
+        System.out.println(query);
+
+        try {
+            pstmt = con.prepareStatement(query);
+            result = pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            close(con);
+            close(pstmt);
+        }
+    return result;
+    }
 }

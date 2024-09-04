@@ -62,7 +62,9 @@ public class Manager {
             switch(choice){
                 case 1: bookStatController.countAllBook();
                 break sloop;
-                case 2: bookStatController.countByGenre();
+                case 2:
+                    bookStatController.showAllGenre();
+                    bookStatController.countByGenre();
                 break sloop;
                 case 3: bookStatController.countRented();
                 break sloop;
