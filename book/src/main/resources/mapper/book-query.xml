@@ -159,6 +159,7 @@
         STATUS_RENT
         FROM TBL_STATUS;
 
+
     </entry>
     <entry key="autoinsert">
         INSERT INTO

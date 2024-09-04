@@ -3,16 +3,19 @@ package com.ohgiraffers;
 import com.ohgiraffers.login.Login;
 import com.ohgiraffers.login.ManagerLogin;
 import com.ohgiraffers.login.SignUp;
+import com.ohgiraffers.overdue.OverdueController;
 
 import java.util.Scanner;
 
 public class Application {
     public static void main(String[] args) {
 
+        OverdueController overdueController = new OverdueController();
         Scanner scr = new Scanner(System.in);
         Login login = new Login();
         ManagerLogin managerLogin = new ManagerLogin();
         SignUp signUp = new SignUp();
+        overdueController.overdueAutoInsert();
 
         while(true){
             System.out.println("=== 도서관리 시스템 ===");

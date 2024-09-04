@@ -27,8 +27,6 @@ public class OverdueController {
     public void overdueAutoInsert(){
         dao.mapinsert(getConnection());
         Map<Integer,String> map = dao.getIsbnDate();
-
-
         dao.insertauto(map, getConnection());
     }
 }

@@ -344,13 +344,15 @@ public class CommonMemberFTDAO {
 
         try {
             System.out.println("출판 년도 : ");
-            int year = sc.nextInt();
-            if(year > 2024){
+            String year = sc.nextLine();
+            String tran = year.replaceAll("\\D", "");
+            int year1 = Integer.parseInt(tran);
+            if(year1 > 2024){
                 throw new Exception("출판년도가 미래일 수 없습니다");
             }
 
             pstmt = con.prepareStatement(prop.getProperty("yearsearch"));
-            pstmt.setInt(1, year);
+            pstmt.setInt(1, year1);
             rset = pstmt.executeQuery();
 
             if (!rset.isBeforeFirst()) {
