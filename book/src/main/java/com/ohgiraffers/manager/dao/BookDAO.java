@@ -392,6 +392,12 @@ public class BookDAO {
                     dateEnd.add(rset.getString(6));
                     userCodeR.add(rset.getString(7));
                     statusReserve.add(rset.getString(8));
+
+                    System.out.println(rset.getString(7));
+                    System.out.println(rset.getString(8));
+                    for(String s : userCodeR){
+                        System.out.println();
+                    }
                 } while(rset.next());
 
                 /*System.out.println(userNameS);
