@@ -94,7 +94,7 @@ public class BookManageDAO {
         query = query.substring(0,query.length()-2);
         query = query + " WHERE ISBN = " + isbn;
 
-        System.out.println(query);
+//        System.out.println(query);
 
         try {
 //            con.setAutoCommit(false);

@@ -41,8 +41,7 @@ public class CommonMemberUI {
                     System.out.println("로그아웃 성공 ! 👋");
                     break loop;
                 default:
-                    System.out.println("잘못입력");
-                    break;
+                    System.out.println("잘못된 번호 입력!! 다시 입력해주세요"); break;
             }
         }
         return null;
@@ -54,6 +53,7 @@ public class CommonMemberUI {
             System.out.println("1. 내 정보 수정");
             System.out.println("2. 대여 중인 책 목록");
             System.out.println("3. 예약 중인 책 목록");
+            System.out.println("4. 연체 중인 책 목록");
             System.out.println("9. 이전으로 돌아가기");
             int num = sc.nextInt();
             sc.nextLine();
@@ -65,10 +65,15 @@ public class CommonMemberUI {
                     ft.showRentedList(userCode);
                     break;
                 case 3:
+                    ft.showReservedList(userCode);
+                    break;
+                case 4:
                     ft.showOverdueList(userCode);
                     break;
                 case 9:
                     break myloop;
+                default:
+                    System.out.println("잘못된 번호 입력!! 다시 입력해주세요"); break;
             }
         }
     }
@@ -82,7 +87,7 @@ public class CommonMemberUI {
             System.out.println("3. 출판연도 검색");
             System.out.println("4. 장르 검색");
             System.out.println("5. 전체 조회 검색");
-            System.out.println("6. 이전으로 돌아가기");
+            System.out.println("9. 이전으로 돌아가기");
 
             int num = sc.nextInt();
             sc.nextLine();
@@ -96,10 +101,10 @@ public class CommonMemberUI {
                     ft.genreSearch(); break;
                 case 5: ft.allSearch(); break;
                 //case 6: userUI(userCode); break;
-                case 6:
+                case 9:
                      break loop;
                 default:
-                    System.out.println("잘못된 숫자 입력 이전으로 돌아갑니다"); break;
+                    System.out.println("잘못된 번호 입력!! 다시 입력해주세요"); break;
             }
         }
 
