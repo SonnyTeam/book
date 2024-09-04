@@ -25,18 +25,17 @@ public class UserController {
 
             UserDTO user = userDAO.selectUser(getConnection(), name);
 
-            // System.out.println(user.getBorrowedList().isEmpty());
-            System.out.print("이름 : " + user.getName() + " | 연락처 : " + user.getPhone() + " | 대여 중인 도서 목록 : ");
-            if(user.getBorrowedList().isEmpty()){
-                System.out.println("없음");
-            }else {
-                for(String subject : user.getBorrowedList()){
-                    System.out.print(subject + " ");
+            if(user != null){
+                System.out.print("이름 : " + user.getName() + " | 연락처 : " + user.getPhone() + " | 대여 중인 도서 목록 : ");
+                if(user.getBorrowedList().isEmpty()){
+                    System.out.println("없음");
+                }else {
+                    for(String subject : user.getBorrowedList()){
+                        System.out.print(subject + " ");
+                    }
+                    System.out.println();
                 }
             }
-
-            System.out.println();
-
 
     }
 
@@ -66,14 +65,43 @@ public class UserController {
             Scanner scr = new Scanner(System.in);
             System.out.println("삭제할 회원의 이름을 입력해주세요.");
             String name = scr.nextLine();
+            int userCode = userDAO.findUserCode(getConnection(), name);
+            System.out.println(userCode);
+            int num = userDAO.deleteUserStatus(getConnection(), userCode);
+            if(num == 0){
+                System.out.println("회원 삭제 실패 - 대여");
+            } else {
+                System.out.println("회원 삭제 완료! -대여");
+            }
+
+            int result1 = userDAO.deleteUserReserveStatus(getConnection(), userCode);
+            System.out.println(result1);
+            if(result1 == 0) {
+                System.out.println("회원 삭제 실패 - 예약");
+            } else {
+                System.out.println("회원 삭제 완료!! -예약");
+            }
+
+            int result2 = userDAO.deleteUserOverdue(getConnection(), userCode);
+            if(result2 == 0){
+                System.out.println("회원 삭제 실패 - 연체");
+            }else {
+                System.out.println("회원 삭제 완료 - 연체");
+            }
 
             int result = userDAO.deleteUser(getConnection(), name);
+            if(result == 1){
+                System.out.println("회원 삭제를 성공하였습니다.");
+            }else {
+                System.out.println("회원 삭제를 실패했습니다.");
+            }
+
+            /*int result = userDAO.deleteUser(getConnection(), name);
             if(result == 1){
                 System.out.println("삭제를 성공하였습니다.");
             }else {
                 System.out.println("삭제하지 못했습니다.");
-            }
-
+            }*/
 
     }
 

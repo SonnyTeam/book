@@ -169,6 +169,11 @@ public class CommonMemberFTDAO {
             pstmt = con.prepareStatement(prop.getProperty("checkbookstatus"));
             pstmt.setInt(1, num);
             rset = pstmt.executeQuery();
+
+            if (!rset.isBeforeFirst()) {
+                throw new Exception("해당 제목의 책이 존재하지 않습니다.");
+            }
+
             while(rset.next()){
                 String currentStatus = rset.getString("STATUS_RENT");
                 if("대여가능".equals(currentStatus)){
@@ -219,8 +224,8 @@ public class CommonMemberFTDAO {
                 }
             }
 
-        }  catch (SQLException e) {
-            throw new RuntimeException(e);
+        }  catch (Exception e) {
+            System.out.println("오류!! "+ e.getMessage()+"이전으로 돌아갑니다");
         }finally {
             close(con);
             close(pstmt);
@@ -568,7 +573,7 @@ public class CommonMemberFTDAO {
         query = query.substring(0,query.length()-2);
         query = query + " WHERE user_code = " + userDTO.getUser_code();
 
-        System.out.println(query);
+//        System.out.println(query);
 
         try {
             pstmt = con.prepareStatement(query);
@@ -593,11 +598,15 @@ public class CommonMemberFTDAO {
             rset = pstmt.executeQuery();
             System.out.println("현재 대여중인 책 목록 : ");
             System.out.println("제목 | 대여 날짜 | 반납 기한 | 연체 여부");
-            while (rset.next()) {
-
-                System.out.print(rset.getString(1) + " | " + rset.getString(2) + " | " + rset.getString(3) + " | " + rset.getString(4));
-                System.out.println();
+            if (!rset.next()) {
+                System.out.println("===============없음================");
+            } else{
+                do {
+                    System.out.print(rset.getString(1) + " | " + rset.getString(2) + " | " + rset.getString(3) + " | " + rset.getString(4));
+                    System.out.println();
+                } while (rset.next());
             }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }finally {
@@ -618,11 +627,41 @@ public class CommonMemberFTDAO {
             rset = pstmt.executeQuery();
             System.out.println("현재 연체중인 책 목록 : ");
             System.out.println("제목 | 연체료 | 연체일");
-            while (rset.next()) {
-
-                System.out.print(rset.getString(1) + " | " + rset.getString(2) + "원 | " + rset.getString(3) + "일");
-                System.out.println();
+            if (!rset.next()) {
+                System.out.println("===============없음================");
+            } else {
+                do {
+                    System.out.print(rset.getString(1) + " | " + rset.getString(2) + "원 | " + rset.getString(3) + "일");
+                    System.out.println();
+                } while (rset.next());
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            close(con);
+            close(pstmt);
+            close(rset);
+        }
+
+    }
+
+    public void showReservedList(Connection con, int userCode) {
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+
+        try {
+            pstmt = con.prepareStatement(prop.getProperty("showReservedList"));
+            pstmt.setInt(1, userCode);
+            rset = pstmt.executeQuery();
+            System.out.println("현재 예약중인 책 목록 : ");
+            if (!rset.next()) {
+                System.out.println("===============없음================");
+            } else{
+                do {
+                    System.out.println(rset.getString(1));
+                } while (rset.next());
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }finally {
