@@ -207,6 +207,7 @@ public class BookDAO {
             if(currentStatus != null){
                 tempStatusList.add(currentStatus);
             }
+            //~첫번째 대여한사람의 정보를 임시로 저장
 
 
             pstmt = con.prepareStatement(prop.getProperty("findUserCode"));
@@ -214,10 +215,11 @@ public class BookDAO {
             pstmt.setString(1, name);
             rset = pstmt.executeQuery();
             String code = ""; // 입력한 사람의 사용자 코드
+            //~입력한 사람의 유저코드와 빌린 책번호를 가져옴
 
 
             while(rset.next()){
-                code = rset.getString(1);
+                code = rset.getString(1); //~책번호는 왜??
             }
 
             pstmt = con.prepareStatement(prop.getProperty("findThings"));
@@ -225,7 +227,7 @@ public class BookDAO {
             pstmt.setString(1, subject);
             rset = pstmt.executeQuery();
             String compareCode = "";
-
+            
             while(rset.next()){
                 compareCode = rset.getString(1);
             }
@@ -233,7 +235,7 @@ public class BookDAO {
 
             if(compareCode.equals(code)){
                 System.out.println("본인이 대여중인 책입니다. 다시 시도해주세요.");
-                return 0;
+                return result;
             }
 
 
@@ -241,7 +243,6 @@ public class BookDAO {
                 System.out.println("없는 회원입니다.");
                 return result;
             }
-
 
             pstmt.close();
             pstmt = con.prepareStatement(prop.getProperty("updateReserveStatus"));
@@ -257,7 +258,7 @@ public class BookDAO {
 
 
             pstmt.setString(1, statusReserve);
-            pstmt.setString(2, code);
+            pstmt.setString(2, code); //유저코드를 문자열로?
             pstmt.setInt(3, isbn);
 
             int codeI = Integer.parseInt(code);
@@ -467,7 +468,6 @@ public class BookDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
 
     }
 

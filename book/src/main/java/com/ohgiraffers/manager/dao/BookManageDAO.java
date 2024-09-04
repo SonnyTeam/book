@@ -53,13 +53,13 @@ public class BookManageDAO {
 
         try {
 
-            con.setAutoCommit(false);
+//            con.setAutoCommit(false);
 
             pstmt = con.prepareStatement(prop.getProperty("deleteBook"));
             pstmt.setString(1, subject);
             result = pstmt.executeUpdate();
 
-            con.rollback();
+//            con.rollback();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -138,4 +138,37 @@ public class BookManageDAO {
         }
         return 1;
     }
+
+    public int insertOrDeleteBookStatus(Connection con, String subject, int num) {
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+        int ISBN = 0;
+        int result = 0;
+
+        try {
+            pstmt = con.prepareStatement(prop.getProperty("findISBN"));
+            pstmt.setString(1, subject);
+            rset = pstmt.executeQuery();
+            while (rset.next()) {
+                ISBN = rset.getInt("ISBN");
+            }
+            switch (num) {
+                case 1:
+                    pstmt = con.prepareStatement(prop.getProperty("insertBookStatus"));
+                    pstmt.setInt(1, ISBN);
+                    result = pstmt.executeUpdate();
+                    break;
+                case 2:
+                    pstmt = con.prepareStatement(prop.getProperty("deleteBookStatus"));
+                    pstmt.setInt(1, ISBN);
+                    result = pstmt.executeUpdate();
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
 }

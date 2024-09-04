@@ -1,5 +1,9 @@
 package com.ohgiraffers.login;
 
+import com.ohgiraffers.user.dto.UserDTO;
+
+import java.util.Scanner;
+
 import static com.ohgiraffers.JDBCTemplate.JDBCTemplate.getConnection;
 
 public class CommonMemberFT {
@@ -48,4 +52,24 @@ public class CommonMemberFT {
         }
     }
 
+    public void updateUser(int userCode) {
+        Scanner scr = new Scanner(System.in);
+        System.out.println("===나의 정보 수정===");
+        System.out.println("수정 내용 입력\n수정불필요 항목은 ENTER로 스킵!!!");
+        UserDTO userDTO = dao.showUserInfo(getConnection(), userCode);
+
+        System.out.println("이름을 입력 : ");
+        userDTO.setName(scr.nextLine());
+        System.out.println("전화번호를 입력 : ");
+        userDTO.setPhone(scr.nextLine());
+        System.out.println("id를 입력 : ");
+        userDTO.setUser_id(scr.nextLine());
+        System.out.println("password를 입력 : ");
+        userDTO.setUser_pwd(scr.nextLine());
+
+        int result =dao.updateUser(getConnection(), userDTO);
+        if(result==1){
+            System.out.println("나의 정보 수정 완료");
+        }
+    }
 }

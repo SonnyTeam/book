@@ -30,4 +30,6 @@ public class BookStatController {
     public void countRented() {
         bookStatDAO.countRented(getConnection());
     }
+
+    public void showAllGenre(){bookStatDAO.showAllGenre(getConnection());}
 }
