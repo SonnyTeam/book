@@ -38,6 +38,10 @@ public class UserDAO {
             pstmt.setString(1, name);
             rset = pstmt.executeQuery();
 
+            if (!rset.isBeforeFirst()) {
+                throw new Exception("회원이 존재하지않습니다.");
+            }
+
             String userName = "";
             String userPhone = "";
             borrowedList = new ArrayList<>();
@@ -50,6 +54,7 @@ public class UserDAO {
                 userCode = rset.getInt(3);
 
             }
+
 
             pstmt = con.prepareStatement(prop.getProperty("selectBorrowedUser"));
             pstmt.setInt(1, userCode);
@@ -65,8 +70,9 @@ public class UserDAO {
             user = new UserDTO(userName, userPhone, borrowedList);
 
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            System.out.println("오류!! "+ e.getMessage()+"이전으로 돌아갑니다");
+            // throw new RuntimeException(e);
         } finally {
             close(con);
             close(pstmt);
@@ -121,8 +127,8 @@ public class UserDAO {
             //con.rollback();
 
         } catch (SQLException e) {
+            e.printStackTrace();
             System.out.println("도서를 대여/예약 중인 회원입니다.");
-            // throw new RuntimeException(e);
 
         } finally {
             close(con);
@@ -183,5 +189,85 @@ public class UserDAO {
         }
 
         return userList;
+    }
+
+    public int findUserCode(Connection con, String name) {
+
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+        int userCode = 0;
+
+        try {
+            pstmt = con.prepareStatement(prop.getProperty("findUserCode"));
+            pstmt.setString(1, name);
+            rset = pstmt.executeQuery();
+            while (rset.next()) {
+                userCode = rset.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            close(con);
+            close(pstmt);
+            close(rset);
+        }
+        return userCode;
+    }
+
+    public int deleteUserStatus(Connection con, int userCode) {
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+        int result = 0;
+
+        try {
+
+            pstmt = con.prepareStatement(prop.getProperty("deleteUserStatus"));
+            pstmt.setInt(1, userCode);
+            result = pstmt.executeUpdate();
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    public int deleteUserReserveStatus(Connection con, int userCode) {
+
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+        int result = 0;
+
+        try {
+
+            pstmt = con.prepareStatement(prop.getProperty("deleteUserReserveStatus"));
+            pstmt.setInt(1, userCode);
+            result = pstmt.executeUpdate();
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    public int deleteUserOverdue(Connection con, int userCode) {
+
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+        int result = 0;
+
+        try {
+
+            pstmt = con.prepareStatement(prop.getProperty("deleteUserOverdue"));
+            pstmt.setInt(1, userCode);
+            result = pstmt.executeUpdate();
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
     }
 }

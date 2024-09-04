@@ -158,7 +158,7 @@ public class BookDAO {
 
             pstmt.setString(1, statusReserve);
             pstmt.setString(2, null);
-            pstmt.setInt(2, isbn);
+            pstmt.setInt(3, isbn);
 
 
             // 변경된 이력 저장
@@ -408,11 +408,11 @@ public class BookDAO {
                 }
 
 
-                if(result == 1){
+                /*if(result == 1){
                     System.out.println("데이터베이스에 저장되었습니다.");
                 }else {
                     System.out.println("데이터베이스 저장 실패");
-                }
+                }*/
 
                 statusList.clear();
             }

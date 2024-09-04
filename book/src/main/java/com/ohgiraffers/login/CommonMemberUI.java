@@ -60,13 +60,13 @@ public class CommonMemberUI {
             switch (num) {
                 case 1:
                     ft.updateUser(userCode);
-                    break myloop;
+                    break;
                 case 2:
                     ft.showRentedList(userCode);
-                    break myloop;
+                    break;
                 case 3:
                     ft.showOverdueList(userCode);
-                    break myloop;
+                    break;
                 case 9:
                     break myloop;
             }

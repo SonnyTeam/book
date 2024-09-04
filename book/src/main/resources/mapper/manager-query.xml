@@ -153,5 +153,19 @@
         WHERE r.status_reserve = ?
     </entry>
 
+    <entry key="deleteUserStatus">
+        DELETE FROM tbl_status
+        WHERE user_code = ?
+    </entry>
+
+    <entry key="deleteUserReserveStatus">
+        DELETE FROM tbl_reserve_status
+        WHERE user_code = ?
+    </entry>
+
+    <entry key="deleteUserOverdue">
+        DELETE FROM tbl_overdue
+        WHERE user_code = ?
+    </entry>
 
 </properties>
