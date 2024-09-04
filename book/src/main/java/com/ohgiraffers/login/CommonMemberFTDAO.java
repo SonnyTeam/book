@@ -169,6 +169,11 @@ public class CommonMemberFTDAO {
             pstmt = con.prepareStatement(prop.getProperty("checkbookstatus"));
             pstmt.setInt(1, num);
             rset = pstmt.executeQuery();
+
+            if (!rset.isBeforeFirst()) {
+                throw new Exception("해당 제목의 책이 존재하지 않습니다.");
+            }
+
             while(rset.next()){
                 String currentStatus = rset.getString("STATUS_RENT");
                 if("대여가능".equals(currentStatus)){
@@ -219,8 +224,8 @@ public class CommonMemberFTDAO {
                 }
             }
 
-        }  catch (SQLException e) {
-            throw new RuntimeException(e);
+        }  catch (Exception e) {
+            System.out.println("오류!! "+ e.getMessage()+"이전으로 돌아갑니다");
         }finally {
             close(con);
             close(pstmt);
