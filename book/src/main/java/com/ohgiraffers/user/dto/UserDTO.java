@@ -30,7 +30,12 @@ public class UserDTO {
     }
 
     public void setName(String name) {
-        this.name = name;
+        if(name == null || name.trim().equals("")) {
+            this.name = null;
+        }else {
+            this.name = name;
+        }
+
     }
 
     public String getPhone() {
@@ -38,7 +43,12 @@ public class UserDTO {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        if(phone == null || phone.trim().equals("")) {
+            this.phone = null;
+        }else {
+            this.phone = phone;
+        }
+
     }
 
     public String getUser_id() {
@@ -46,7 +56,12 @@ public class UserDTO {
     }
 
     public void setUser_id(String user_id) {
-        this.user_id = user_id;
+        if(user_id == null || user_id.trim().equals("")) {
+            this.user_id = null;
+        } else {
+            this.user_id = user_id;
+        }
+
     }
 
     public String getUser_pwd() {
@@ -54,12 +69,17 @@ public class UserDTO {
     }
 
     public void setUser_pwd(String user_pwd) {
-        this.user_pwd = user_pwd;
+        if(user_pwd == null || user_pwd.trim().equals("")) {
+            this.user_pwd = null;
+        }else {
+            this.user_pwd = user_pwd;
+        }
+
     }
 
     @Override
     public String toString() {
-        return "UserDTO{" +
+        return "{" +
                 "name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
                 ", user_id='" + user_id + '\'' +

@@ -35,5 +35,16 @@
         WHERE ISBN = ?
     </entry>
 
+    <entry key="deleteBookReserveStatus">
+        DELETE FROM tbl_reserve_status
+        WHERE ISBN = ?
+    </entry>
+
+    <entry key="insertBookReserveStatus">
+        INSERT INTO tbl_reserve_status(ISBN, user_code, status_reserve)
+        VALUES
+        (?, null, default)
+    </entry>
+
 
 </properties>
